@@ -47,7 +47,7 @@ GEM
       nuggets
     jekyll-watch (2.2.1)
       listen (~> 3.0)
-    kramdown (1.17.0)
+    kramdown (2.3.0) 
     liquid (4.0.3)
     liquid-md5 (0.0.3)
       liquid (>= 2.5, < 5.0)
