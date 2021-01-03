@@ -1,0 +1,44 @@
+title: ElementalX
+author: Elemental
+email: xelemental@protonmail.ch
+description: > # this means to ignore newlines until "show_exerpts:"
+    Hi, I am ElementalX from India, am a Computer Applications Undergrad & maker of <a href="https://ax1al.com">AX1AL</a></li>, I blog about Threat groups, Reverse engineering & malware nerdery.
+show_excerpts: false # set to true to show excerpts on the homepage
+
+paginate: 20
+paginate_path: "/blog/page:num/"
+
+tag_permalink_style: pretty
+tag_page_layout: tag_page
+tag_page_dir: tag
+
+# jekyll-dash date format
+# refer to http://shopify.github.io/liquid/filters/date/ if you want to customize this
+dash:
+  date_format: "%b %-d, %Y"
+
+  disqus:
+    shortname: https-xelemental-github-io
+
+  # generate social links in footer
+  # supported colors: green, red, orange, blue, cyan, pink, teal, yellow, indigo, purple
+  social_links:
+    - url: https://twitter.com/ElementalX2
+      icon: twitter-square
+      color: cyan
+    - url: https://github.com/xelemental
+      icon: github-square
+      color: purple
+    - url: https://www.linkedin.com/in/subhajeet-singha-b238951a9
+      icon: linkedin
+      color: yellow
+
+# Build settings
+theme: jekyll-dash
+
+plugins:
+ - jekyll-feed
+ - jekyll-seo-tag
+ - jekyll-paginate
+ - liquid-md5
+ - jekyll/tagging
