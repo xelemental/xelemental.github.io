@@ -2,7 +2,7 @@ title: ElementalX
 author: Elemental
 email: xelemental@protonmail.ch
 description: > # this means to ignore newlines until "show_exerpts:"
-    Hi, I am ElementalX from India, am a Computer Applications Undergrad & maker of <a href="https://ax1al.com">AX1AL</a></li>, I blog about Threat groups, Reverse engineering & malware nerdery.
+    Hi, I am ElementalX from India, am a Computer Applications Undergrad & maker of <a href="https://ax1al.com">AX1AL</a></li>, I will blog about Reverse engineering & malware nerdery and all other low level aspects of computers.
 show_excerpts: false # set to true to show excerpts on the homepage
 
 paginate: 20
