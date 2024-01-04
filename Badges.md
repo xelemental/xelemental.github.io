@@ -1,7 +1,7 @@
-# Badges
+
 
 I am also a senior judge @ [Trace-Labs](https://www.tracelabs.org/), a Non-Profit Organization whose mission is to accelerate the family reunification of missing persons while training members in the tradecraft of open source intelligence (OSINT).
-<br></br>
+
 
 Check out my badges here :
 
