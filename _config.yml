@@ -1,4 +1,4 @@
-title: "Debug | Disassemble | Dev"
+title: "Dev | Disassemble | Debug"
 author: "xelemental"
 description: "Written with <b style=\"color: #f45;\">&lt;3</b>"
 permalink: /:title/
@@ -26,8 +26,6 @@ external:                  # shows a footer with social links - for available ic
   - {title: Twitter, icon: twitter, url: "https://twitter.com/ElementalX2"}
 
 comments:
-#  disqus_shortname: ""    # see https://disqus.com/
-#  isso_domain: ""         # see https://posativ.org/isso/
 
 plugins:
  - jekyll-feed
