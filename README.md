@@ -4,8 +4,6 @@ permalink: "/about/"
 layout: page
 ---
 
-## About
-
 A Security Researcher with 2.5 years of experience doing threat research, and development & conducted corporate training for 20 companies. 
 
 ## Services
