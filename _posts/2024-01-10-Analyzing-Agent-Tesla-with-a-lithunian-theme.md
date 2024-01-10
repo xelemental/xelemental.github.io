@@ -84,5 +84,35 @@ Finally, we dumped the macros into three text files, and upon opening, we can se
 
 ## Deobfuscating the malicious macro.
 
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/bbea3334-3d42-4f45-91a5-137577876cb6)
 
+As, we saw in the previous section that there were three files which were dumped, initially we will proceed with the **uvkebkmzg.txt** macros.
+
+```vbscript
+Attribute VB_Name = "uvkebkmzg"
+Function tzvqtseegxmshhc(ByVal rmvztcvjc As String) As String
+Dim epzjirtqxo As Long
+For epzjirtqxo = 1 To Len(rmvztcvjc) Step 2
+tzvqtseegxmshhc = tzvqtseegxmshhc & Chr$(Val("&H" & Mid$(rmvztcvjc, epzjirtqxo, 2)))
+Next epzjirtqxo
+End Function
+```
+This obfuscated code looks like a function which takes strings as an input and converts it to a readable format, and upon opening the other document, it was crystal clear, that this function does take hexadecimal values as an input which is further used in the code. 
+
+Upon deobfuscation, the code looks something like this : 
+```vbscript
+Function DecodeHexString(ByVal hexString As String) As String
+    Dim charIndex As Long
+    
+    ' Loop through the hexString by pairs of characters (two characters at a time)
+    For charIndex = 1 To Len(hexString) Step 2
+        ' Convert each pair of characters from hex to ASCII and append it to the result string
+        DecodeHexString = DecodeHexString & Chr$(Val("&H" & Mid$(hexString, charIndex, 2)))
+    Next charIndex
+End Function
+```
+
+![An image of the macro file pointing to the tzvqtseegxmshhc function](https://github.com/xelemental/xelemental.github.io/assets/49472311/61e1a368-a86c-4bbd-ab28-f8c155c9bf02)
+
+Now, we will move ahead with the other file **qlfgysbla.txt**, and just opening the file, we can see that the function **tzvqtseegxmshhc** is being called multiple times in this file. The next step would be to copy any one function amongst all these obfuscated functions and do some VBA debugging, to figure out the content stored inside the variables. 
 
