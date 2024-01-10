@@ -1,9 +1,8 @@
----
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/5a3703fe-3b9c-4f75-9f56-a37a8bc8453c)---
 title:  "Analyzing Agent Tesla with a Lithunian Theme"
 layout: post
 categories: media
 ---
-
 
 
 ## Table Of Contents
@@ -27,7 +26,10 @@ categories: media
 
 ## **Background**
 
- This blog delves into the analysis of Agent Tesla, a well-known stealer that emerged in the market back in 2014, as reported by reputable [researchers](https://krebsonsecurity.com/2018/10/who-is-agent-tesla/). While I've conducted triage on a few Agent Tesla samples alongside fellow researchers at my workplace, I haven't previously undertaken an in-depth exploration of the sample, uncovering its obfuscation techniques and internal operations. The sample discussed in this blog came to light when a security researcher known as [souiten](https://twitter.com/souiten) shared information about a [malicious document](https://twitter.com/souiten/status/1743200919645458676?s=46) targeting Lithuania. Alongside the analysis of the primary payload AKA Agent Tesla, this blog will also contain an analysis of the malicious document file, a deobfuscation of the macro. 
+![Agent-Tesla](https://github.com/xelemental/xelemental.github.io/assets/49472311/7a8216c2-4497-4182-bbfe-b2bb4c8d2622)
+
+
+ This blog delves into the analysis of Agent Tesla, a well-known stealer that emerged in the market back in 2014, as reported by reputable [researchers](https://krebsonsecurity.com/2018/10/who-is-agent-tesla/). While I've conducted triage on a few Agent Tesla samples alongside fellow researchers at my workplace, I haven't previously undertaken an in-depth exploration of the sample, uncovering its obfuscation techniques and internal operations. The sample discussed in this blog came to light when a security researcher known as [souiten](https://twitter.com/souiten) shared information about a [malicious document](https://twitter.com/souiten/status/1743200919645458676?s=46) targeting Lithuania. Alongside the analysis of the primary payload AKA Agent Tesla, this blog will also contain an analysis of the malicious document file and a deobfuscation of the macro. 
 
 
 
@@ -115,4 +117,12 @@ End Function
 ![An image of the macro file pointing to the tzvqtseegxmshhc function](https://github.com/xelemental/xelemental.github.io/assets/49472311/61e1a368-a86c-4bbd-ab28-f8c155c9bf02)
 
 Now, we will move ahead with the other file **qlfgysbla.txt**, and just opening the file, we can see that the function **tzvqtseegxmshhc** is being called multiple times in this file. The next step would be to copy any one function amongst all these obfuscated functions and do some VBA debugging, to figure out the content stored inside the variables. 
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/e0fa11a5-d3e8-4a4b-b71d-4e21561701a0)
+
+The initial step is to create a macro and add these two functions, the first one as we saw responsible for decoding the contents in hexadecimal, and the second one the first function, and just for a matter of understanding, it is renamed to `DecodeStrings`. 
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/8132af4c-ac3e-4cb1-9513-f9eced9f68ed)
+
+At the end of the function, we can see that the value from the variable `b0` which is responsible for storing the decoded content passes the entire content to a variable known as `tiipkqhcdm` . So, I added a small `Debug. Print` to visualize the content inside the final variable.
 
