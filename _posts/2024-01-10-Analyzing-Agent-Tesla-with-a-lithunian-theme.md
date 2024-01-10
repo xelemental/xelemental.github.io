@@ -41,7 +41,7 @@ categories: malware-analysis
 
 SHA-256 : f98378693c86be4888f68b688c9733596a01dc55dc9f8600b4bb8d29f2477fd6
 
-Sample:  Available [here](https://bazaar.abuse.ch/sample/f98378693c86be4888f68b688c9733596a01dc55dc9f8600b4bb8d29f2477fd6/)
+Sample:  Available [here.](https://bazaar.abuse.ch/sample/f98378693c86be4888f68b688c9733596a01dc55dc9f8600b4bb8d29f2477fd6/)
 
 
 ### What is this document about? 
@@ -204,8 +204,9 @@ And finally, we are done with the complete manual deobfuscation of the macro.
 
 You can find the macros here. 
 
-[Link 1](https://pastes.io/bpcimswvgr)
-[Link 2](https://pastes.io/lzmsymrtst) 
+- [Link 1](https://pastes.io/bpcimswvgr)
+
+- [Link 2](https://pastes.io/lzmsymrtst) 
 
 ### Overview of the macro
 
