@@ -1,7 +1,7 @@
 ---
 title:  "Analyzing Agent Tesla with a Lithunian Theme"
 layout: post
-categories: malware-analysis
+categories: media
 ---
 
 
