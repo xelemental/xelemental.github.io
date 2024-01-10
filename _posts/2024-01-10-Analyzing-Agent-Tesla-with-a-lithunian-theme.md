@@ -1,4 +1,4 @@
-![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/5a3703fe-3b9c-4f75-9f56-a37a8bc8453c)---
+---
 title:  "Analyzing Agent Tesla with a Lithunian Theme"
 layout: post
 categories: media
