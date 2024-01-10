@@ -202,6 +202,11 @@ End Function
 
 And finally, we are done with the complete manual deobfuscation of the macro. 
 
+You can find the macros here. 
+
+[Link 1](https://pastes.io/bpcimswvgr)
+[Link 2](https://pastes.io/lzmsymrtst) 
+
 ### Overview of the macro
 
 Finally, with a medium level of confidence, we can confirm that the maldoc contains an obfuscated macro which upon execution drops an executable, leverages COM to launch the executable, and is targetted towards people who are interested or do advocate and believe for the human rights of Belarusian people and their citizenship in Lithuania(🇱🇹). 
