@@ -1,5 +1,5 @@
 ---
-title:  "Analyzing Agent Tesla with a Lithunian Theme."
+title:  "Analyzing Malicious Document Targeting Lithuania."
 layout: post
 categories: malware-analysis
 ---
@@ -14,13 +14,6 @@ categories: malware-analysis
     - Extracting malicious artefacts using OLETools.
     - Deobfuscating the malicious macro.
     - Overview of the macro.
-- Agent Tesla Analysis
-    - Metadata
-    - Unpacking & Deobfuscation.
-    - Functionality of the malware.
-    - Features of the malware.
- - MITRE ATT&CK Mapping.
- - Summary
  - Resources
 
 
@@ -30,7 +23,7 @@ categories: malware-analysis
 ![Agent-Tesla](https://github.com/xelemental/xelemental.github.io/assets/49472311/7a8216c2-4497-4182-bbfe-b2bb4c8d2622)
 
 
- This blog delves into the analysis of Agent Tesla, a well-known stealer that emerged in the market back in 2014, as reported by reputable [researchers](https://krebsonsecurity.com/2018/10/who-is-agent-tesla/). While I've conducted triage on a few Agent Tesla samples alongside fellow researchers at my workplace, I haven't previously undertaken an in-depth exploration of the sample, uncovering its obfuscation techniques and internal operations. The sample discussed in this blog came to light when a security researcher known as [souiten](https://twitter.com/souiten) shared information about a [malicious document](https://twitter.com/souiten/status/1743200919645458676?s=46) targeting Lithuania. Alongside the analysis of the primary payload AKA Agent Tesla, this blog will also contain an analysis of the malicious document file and a deobfuscation of the macro. 
+ This blog delves into the analysis of a malicious macro delivers, a well-known stealer AKA Agent Tesla, that emerged in the market back in 2014, as reported by reputable [researchers](https://krebsonsecurity.com/2018/10/who-is-agent-tesla/). The sample discussed in this blog came to light when a security researcher known as [souiten](https://twitter.com/souiten) shared information about a [malicious document](https://twitter.com/souiten/status/1743200919645458676?s=46) targeting Lithuania. 
 
 
 
@@ -211,3 +204,7 @@ You can find the macros here.
 ### Overview of the macro
 
 Finally, with a medium level of confidence, we can confirm that the maldoc contains an obfuscated macro which upon execution drops an executable, leverages COM to launch the executable, and is targetted towards people who are interested or do advocate and believe for the human rights of Belarusian people and their citizenship in Lithuania(🇱🇹). 
+
+## Resources
+
+- [Didier Stevens](https://blog.didierstevens.com/programs/oledump-py/) 
