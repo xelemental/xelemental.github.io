@@ -1,8 +1,8 @@
 ---
-title : "GoStealer : Golang based credential stealer targets Indian Airforce Officials"
-layout : post
-category : malware-analysis
-----
+title:  "GoStealer: Golang-based credential stealer targets Indian Airforce Officials."
+layout: post
+categories: malware-analysis
+---
 
 ## Table Of Contents
 
