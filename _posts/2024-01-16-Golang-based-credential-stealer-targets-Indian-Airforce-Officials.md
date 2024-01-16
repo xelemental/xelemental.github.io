@@ -132,7 +132,7 @@ File Type: `Portable Executable 64`
 VirusTotal Detection: `30/69` 
 
 
-### Analysis of the stealer using IDA-Freeware & x64dbg.
+### Analysis of the stealer using IDA-Freeware.
 
 
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/1a3a6a09-30fe-4b08-add6-6898cc04a036)
