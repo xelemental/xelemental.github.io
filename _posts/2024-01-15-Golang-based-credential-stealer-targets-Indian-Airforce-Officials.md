@@ -59,3 +59,26 @@ Recently, the [Indian Government issued a tender](https://www.indiatoday.in/indi
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/41c2e83e-145f-487f-a69c-3edaec1b0b30)
 
 Now, we observe that the sample was initially submitted to VT on the 9th of January 2024. Therefore, with a moderate level of confidence, we can infer that the unknown threat actor is impersonating the Sukhoi Company, attempting to deceive Air Force officials into believing that this ISO contains sensitive information.
+
+### Extracting malicious artefacts.
+
+There are a lot of tools on the web, like the famous [ISODump](https://isc.sans.edu/diary/isodumppy+and+Malicious+ISO+Files/25134) by Didier Stevens. But here will use simple 7z to extract contents from the ISO file. 
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/44170fe5-03a4-4ae1-bf21-0ae55e0ca756)
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/53b5f78b-5e35-4c59-86d5-dc9ea5ea2b5f)
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/7a651318-01f7-4901-b6fa-52813d2411b9)
+
+As we can see upon extraction, there are three files one of them is the LNK file, and a small `.temp` file is created, which contains an executable named `.tmp.exe` and a decoy PDF known as `sample.PDF`. In the next section, we will focus on the analysis of these files. 
+
+
+### Analyzing malicious artefacts. 
+
+Let us start with the analysis of the LNK sample. For parsing the malicious LNK file, we will be using [LnkParser](https://github.com/silascutler/LnkParse). 
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/7eeb2e0b-33cc-4ddb-8636-1d410ad712db)
+
+A small dilemma arises while analyzing the LNK file. The creation timestamp dates back to the 14th Of November, and the accessed timestamp is on the 9th of December 2023. Now, with a moderate level of confidence, we can confirm that this campaign was staged during the same time as the tender initiated by the Government of India to HAL.
+
+Next, examining the `commandLineArgument` parameter reveals that it contains the value to start the `.tmp.exe` executable in the background using `cmd.exe` and then launch the decoy document sample.pdf in the foreground.
