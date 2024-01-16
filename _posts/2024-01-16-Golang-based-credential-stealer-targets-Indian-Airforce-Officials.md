@@ -17,7 +17,7 @@ categories: malware-analysis
 - Stealer Analysis
     - Metadata
     - File Information.
-    - Analysis of the stealer using IDA-Freeware & x64dbg.
+    - Analysis of the stealer using IDA-Freeware.
     - Features of the malware.
     - Open Source packages used.
     - YARA Rule.
@@ -119,17 +119,17 @@ After analysing all the artefacts extracted from this ISO, we can confirm that t
 
 SHA-256 : 8de4300dc3b969d9e039a9b42ce4cb4e8a200046c14675b216cceaf945734e1f
 
-Sample : Available [here.](https://bazaar.abuse.ch/sample/8de4300dc3b969d9e039a9b42ce4cb4e8a200046c14675b216cceaf945734e1f)
+Sample: Available [here.](https://bazaar.abuse.ch/sample/8de4300dc3b969d9e039a9b42ce4cb4e8a200046c14675b216cceaf945734e1f)
 
 ### File Information
 
-File Name : `.tmp.exe` 
+File Name: `.tmp.exe` 
 
-File Creation Time : `21 December 2023` 
+File Creation Time: `21 December 2023` 
 
-File Type : `Portable Executable 64` 
+File Type: `Portable Executable 64` 
 
-VirusTotal Detection : `30/69` 
+VirusTotal Detection: `30/69` 
 
 
 ### Analysis of the stealer using IDA-Freeware & x64dbg.
@@ -148,22 +148,35 @@ After scrolling the function graph, we encounter the first interesting function 
 
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/363c3cb7-2fd4-4df9-bbf0-3aac3c990990)
 
-So, this function basically creates or opens `Temp` directory and after that creates a text file known as `Vihvaivlxd.txt` and returns the fileinfo. 
+So, this function creates or opens the `Temp` directory and after that creates a text file known as `Vihvaivlxd.txt` and returns the file info. 
 
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/f5b45b8f-d002-40b2-8501-a27d60f67efc)
 
-The next, interesting function we encounter is known as `Zkjajhldz` , let us dig inside this function and find out the working and return value of this function. 
+The next, interesting function we encounter is known as `Zkjajhldz`, let us dig inside this function and find out the working and return value of this function. 
 
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/21c1e354-8fe5-482b-87a0-6628eba6a33e)
 
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/43ddbf90-5e32-4605-bcf8-28d65c74b181)
 
-We can see in this function, that the DLLs `ntdll` , `kernel32.dll` & `kernelbase.dll` are being passed to a [slice](https://www.geeksforgeeks.org/slices-in-golang/) which is being used for a function `FullUnhook` . 
+We can see in this function, that the DLLs `ntdll`, `kernel32.dll` & `kernelbase.dll` are being passed to a [slice](https://www.geeksforgeeks.org/slices-in-golang/) which is being used for a function `FullUnhook`. 
 
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/c0b17b1f-a806-471c-a9de-e10bcc96cabd)
 
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/876ff201-f2b5-48ad-85d7-05e70a2317ab)
 
+Upon diving into the `github_com_timwhitez_Doge_Gabh_pkg_Gabh_FullUnhook` function, we can see that it takes the DLL Slice/array name, as its parameter and upon a little browsing on GitHub, we can finally find this repository known as [Doge-Gabh](https://github.com/timwhitez/Doge-Gabh/blob/main/pkg/Gabh/unhook.go) which contains proof of concepts of various red-team techniques, and from them, the current code uses the DLL Unhooking technique to avoid userland API hooking. Therefore, we can conclude that the function performs DLL Unhooking. 
 
-Upon little browsing on github, we can finally find this repository known as [Doge-Gabh](https://github.com/timwhitez/Doge-Gabh/blob/main/pkg/Gabh/unhook.go) which contains proof of concepts of various red-team techniques, and from them the current code uses the DLL Unhooking technique to avoid userland API hooking. 
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/4dc91ea6-8352-444e-af64-b13e6ddf89c4)
+
+Moving ahead to the next interesting function known as `Wyoaitjk`, let us dive in and check the working of the function. 
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/6646f66a-09cf-41e5-aa13-bcf0b167bca5)
+
+Upon opening the function, we were greeted with another interesting function known as `Jruqsw()`, now let us dive inside that function. 
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/f2694621-780d-4f1b-87c3-667aefc8e4e2)
+
+Here, we can see that the function, we were greeted with is exactly similar to an open-source project known as [Go-Stealer](https://github.com/idfp/go-stealer). 
+
+
 
