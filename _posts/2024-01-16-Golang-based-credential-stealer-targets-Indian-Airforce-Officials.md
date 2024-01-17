@@ -291,7 +291,7 @@ There are some notable packages used :
 
 ### YARA Rule
 
-I am not quite better at writing YARA Rules, but here I have added a very simple YARA Rule, to detect specific fragments of the binary, if you find any issues or find this rule ugly, please reach me out. Thanks! 
+I am not quite better at writing YARA Rules, but here I have added a very simple YARA Rule, to detect specific fragments of the binary, if you find any issues or find this rule ugly, please reach out. Thanks! 
 
 ```yara
 rule dogesteal {
@@ -326,14 +326,14 @@ rule dogesteal {
 
 ### Overview 
 
-This stealer as we saw in most part of the analysis above is based on open source red team project, and most of the malicious code is inherited from the go-stealer project developed by an Indonesian security researcher. An interesting matter of fact looking upon the strings section of the binary is, there are lot of files which are not uploaded on the web, performing credential stealing for Brave Browser & Microsoft Edge. 
+This stealer as we saw in most parts of the analysis above is based on an open source red team project, and most of the malicious code is inherited from the go-stealer project developed by an Indonesian security researcher. An interesting matter of fact looking at the strings section of the binary is, that there are lot of files which are not uploaded on the web, performing credential stealing for Brave Browser & Microsoft Edge. 
 
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/9d484322-a570-4135-a913-9dbe17ebfdca)
 
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/7e1ae219-d8ac-491b-a1c4-5b3a6114fb80)
 
 
-The highlighted piece of code is not present on the github project. Th author also mentions that they have no interest for deving support for Edge browser as this is just a Proof Of Concept.
+The highlighted piece of code is not present on the GitHub project. The author also mentions that they have no interest for developing support for the Edge browser as this is just a Proof Of Concept.
 
 
 ## Infrastructure Analysis 
@@ -343,43 +343,49 @@ The highlighted piece of code is not present on the github project. Th author al
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/3882f216-3399-4c8f-bca5-8e1c02f51ecf)
 
 
-As, this binary is using Slack as its command and control(C2) , upon the very look into the tweet, I encountered a fellow researcher known as [ddash](https://twitter.com/ddash_ct) tweeted about the authetication token `xoxb-6379011443682-6391721548145-3wbY7GyxHj9Ksw29pvLmqpuP` along with channel ID `C06B22AUJF7`, which even I discovered upon little debugging. Therefore, we will be using a tool known as [SlackPirate](https://github.com/emtunc/SlackPirate) to enumerate information about the channel. 
+As, this binary uses Slack as its command and control(C2), upon the very look into the tweet, I encountered a fellow researcher known as [ddash](https://twitter.com/ddash_ct) tweeted about the authentication token `xoxb-6379011443682-6391721548145-3wbY7GyxHj9Ksw29pvLmqpuP` along with channel ID `C06B22AUJF7`, which even I discovered upon little debugging. Therefore, we will be using a tool known as [SlackPirate](https://github.com/emtunc/SlackPirate) to enumerate information about the channel. 
 
-Before jumping to the phase of analysis, it is always better to know that there are four type of tokens in the Slack API.
+Before jumping to the phase of analysis, it is always better to know that there are four types of tokens in the Slack API.
 
 - `xoxp-<token_here>` : User Tokens
 - `xoxb-<token_here>` : Bot Tokens
 - `xapp-<token_here>` : App-level Tokens
 - Configuration Tokens.
   
-Now, we will install SlackPirate from Github, and after installation, we will pass the bot token to the python script.
+Now, we will install SlackPirate from Github, and after installation, we will pass the bot token to the Python script.
 
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/cfa943bb-489a-4216-8a42-7ba2a0bfdf59)
 
-Well, the tool did break down due to some issues, but thanks to it, we could manage to get the slack group's URL & the name of the bot or the user.
+Well, the tool did break down due to some issues, but thanks to it, we managed to get the slack group's URL & the name of the bot or the user.
 
 ### Overview
 
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/0497f57e-edbd-4344-bc69-6cd37847fec3)
 
 
-Thanks to SlackPirate, we could get little info about the slack group, and upon browsing the link, we can see that this group is a valid one. 
+Thanks to SlackPirate, we could get little info about the Slack group, and upon browsing the link, we can see that this group is a valid one. 
 
 
 ## MITRE ATT&CK.
 
-T1204.002 : User-Execution - Malicious File.
-T1562.001 : Defense Evasion - Disable or Modify Tools
-T1555.003 : Credential Access - Credentials from Web Browser
-T1489 : Service Stop
-T1573.001 : Command and Control - Encrypted channel
-T1083 : File and Directory Discovery
-T1102: Command and Control - Web Service 
+- T1204.002: User-Execution - Malicious File.
+
+- T1562.001: Defense Evasion - Disable or Modify Tools
+
+- T1555.003: Credential Access - Credentials from Web Browser
+
+- T1489: Service Stop
+
+- T1573.001: Command and Control - Encrypted channel
+
+- T1083: File and Directory Discovery
+
+- T1102: Command and Control - Web Service 
 
 
 ## Summary
 
-Upon doing initial triage of the binary and technical analysis along with looking for the slack c2, we can comprehend that the campaign started during the times of announcement of the Sukhoi Deal around November-December, and the unknown threat actor uses an open source stealer known as Go-Stealer with TimWhite's POC of DLL Unhooking to avoid detection and then stealing chrome and firefox credentials and exfiltrate the data to a slack group known as `tucker-group` with the username of the bot being `super-service` as per the tool SlackPirate. 
+Upon doing initial triage of the binary and technical analysis along with looking for the slack c2, we can comprehend that the campaign started during the times of announcement of the Sukhoi Deal around November-December. The unknown threat actor uses an open source stealer known as Go-Stealer with TimWhite's POC of DLL Unhooking to avoid detection and then steals Chrome and Firefox credentials and exfiltrates the data to a slack group known as `tucker-group` with the username of the bot being `super-service` as per the tool SlackPirate. 
 
 
 ## Resources
