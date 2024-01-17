@@ -21,11 +21,11 @@ categories: malware-analysis
     - Features of the malware.
     - Open Source packages used.
     - YARA Rule.
-    - Overview of the Stealer.
+    - Overview.
  - Infrastructure Analysis 
     - Finding Slack Channel using SlackPirate.
-    - Overview of the Slack C2.
- - MITRE ATT&CK Mapping.
+    - Overview.
+ - MITRE ATT&CK.
  - Summary
  - Resources
 
@@ -273,3 +273,125 @@ The last function uses the `token_initialization_file_upload` function & fixing 
 - Enumeration of Logical Drives.
 
 
+### Open Source packages used.
+
+There are some notable packages used :
+
+- `github.com/slack-go/slack@v0.12.3/`
+- `github.com/go-ole/go-ole@v1.2.6/`
+- `github.com/yusufpapurcu/wmi@v1.2.3/`
+- `github.com/binject/debug@v0.0.0-20211007083345-9605c99179ee/`
+- `github.com/timwhitez/doge-gabh@v1.9.3/`
+- `https://github.com/idfp/go-stealer/`
+- `https://github.com/gorilla/websocket`
+- `https://github.com/zavla/dpapi`
+- `https://github.com/shirou/gopsutil/`
+
+
+
+### YARA Rule
+
+I am not quite better at writing YARA Rules, but here I have added a very simple YARA Rule, to detect specific fragments of the binary, if you find any issues or find this rule ugly, please reach me out. Thanks! 
+
+```yara
+rule dogesteal {
+    meta:
+       author = "Elemental X"
+       description = "Yara rule for detecting malicious gostealer binary"
+       link = "hxxps://github.com/idfp/go-stealer/"
+       hash = "8de4300dc3b969d9e039a9b42ce4cb4e8a200046c14675b216cceaf945734e1f"
+       date = "2024-01-17"
+    strings:
+        //DLL Unhooking Doge-Gabh
+        $s1 = { 48 8B 94 24 A8 00 00 00 8B 52 1C 48 03 50 10 48 89 54 24 50 }
+        //DB Query Context
+        $s2 = { BE 29 00 00 00 45 31 C0 45 31 C9 4D 89 CA E8 D1 B5 D6 FF 48 85 DB }
+        //Calling XOR Encoding function
+        $s3 = { BE 29 00 00 00 45 31 C0 45 31 C9 4D 89 CA E8 D1 B5 D6 FF 48 85 DB }
+        //Token Initialization for Slack Channel
+        $s4 = { 48 8B 05 83 97 54 00 48 8B 1D 84 97 54 00 31 C9 31 FF 48 89 FE E8 90 25 FA FF }
+        //PDB Path
+        $s5 = "E:/development/go-stealer/obfuscated/"
+        //Enumerate Logical Drives
+        $s6 = { BB 0C 00 00 00 E8 B2 BF CE FF 48 8D 1D 5D D8 21 00 B9 10 00 00 00 E8 E1 B8 CE FF }
+        // Github Link
+        $s7 = "github.com/idfp/go-stealer/"
+
+    condition:
+        // Detect if it a PE File and detects all opcodes 
+        uint16(0) == 0x5A4D and 6 of them
+
+  }
+```
+
+### Overview 
+
+This stealer as we saw in most part of the analysis above is based on open source red team project, and most of the malicious code is inherited from the go-stealer project developed by an Indonesian security researcher. An interesting matter of fact looking upon the strings section of the binary is, there are lot of files which are not uploaded on the web, performing credential stealing for Brave Browser & Microsoft Edge. 
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/9d484322-a570-4135-a913-9dbe17ebfdca)
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/7e1ae219-d8ac-491b-a1c4-5b3a6114fb80)
+
+
+The highlighted piece of code is not present on the github project. Th author also mentions that they have no interest for deving support for Edge browser as this is just a Proof Of Concept.
+
+
+## Infrastructure Analysis 
+
+### Finding Slack Channel using SlackPirate.
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/3882f216-3399-4c8f-bca5-8e1c02f51ecf)
+
+
+As, this binary is using Slack as its command and control(C2) , upon the very look into the tweet, I encountered a fellow researcher known as [ddash](https://twitter.com/ddash_ct) tweeted about the authetication token `xoxb-6379011443682-6391721548145-3wbY7GyxHj9Ksw29pvLmqpuP` along with channel ID `C06B22AUJF7`, which even I discovered upon little debugging. Therefore, we will be using a tool known as [SlackPirate](https://github.com/emtunc/SlackPirate) to enumerate information about the channel. 
+
+Before jumping to the phase of analysis, it is always better to know that there are four type of tokens in the Slack API.
+
+- `xoxp-<token_here>` : User Tokens
+- `xoxb-<token_here>` : Bot Tokens
+- `xapp-<token_here>` : App-level Tokens
+- Configuration Tokens.
+  
+Now, we will install SlackPirate from Github, and after installation, we will pass the bot token to the python script.
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/cfa943bb-489a-4216-8a42-7ba2a0bfdf59)
+
+Well, the tool did break down due to some issues, but thanks to it, we could manage to get the slack group's URL & the name of the bot or the user.
+
+### Overview
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/0497f57e-edbd-4344-bc69-6cd37847fec3)
+
+
+Thanks to SlackPirate, we could get little info about the slack group, and upon browsing the link, we can see that this group is a valid one. 
+
+
+## MITRE ATT&CK.
+
+T1204.002 : User-Execution - Malicious File.
+T1562.001 : Defense Evasion - Disable or Modify Tools
+T1555.003 : Credential Access - Credentials from Web Browser
+T1489 : Service Stop
+T1573.001 : Command and Control - Encrypted channel
+T1083 : File and Directory Discovery
+T1102: Command and Control - Web Service 
+
+
+## Summary
+
+Upon doing initial triage of the binary and technical analysis along with looking for the slack c2, we can comprehend that the campaign started during the times of announcement of the Sukhoi Deal around November-December, and the unknown threat actor uses an open source stealer known as Go-Stealer with TimWhite's POC of DLL Unhooking to avoid detection and then stealing chrome and firefox credentials and exfiltrate the data to a slack group known as `tucker-group` with the username of the bot being `super-service` as per the tool SlackPirate. 
+
+
+## Resources
+
+- Golang Official Website.
+- Github[TimWhite]
+- Github[Go-Stealer]
+- Times Of India
+- LnkParser.
+- IredTeam.
+- Slack Docs
+- Slack Docs - Go Package
+- SlackPirate.
+- MITRE ATT&CK Framework
+- MalwareBazaar
