@@ -200,4 +200,37 @@ Inside, StealCooking function, we have another function which basically performs
 
 Now, once it is done, dumping the cookies, it then goes ahead to crack the passwords, this time we encounter a function `Hhyvpjr` , let us explore the function. 
 
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/fad2732a-170a-4093-a914-d83b23908085)
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/f334ebd0-7685-4beb-99b1-2d37a7ec3b20)
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/ad1ceacd-f62a-47dc-bc58-d9edf60cde40)
+
+Next, in the same function the login data of the firefox which is to be stolen, is loaded using a function, and for better readability, I have named it `LoadLoginsData` , it converts the JSON into an array using `Unmarshal` funtion in golang.
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/67277cf3-4af8-4a1f-84c6-9d4dcf9b8b4f)
+
+Now, once the logins data is harvested from the JSON file, the code decrypts the username & password using `3DES` which takes the `key` , `IV` and the `ciphertext` as parameters and returns the plain text. 
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/8eefc5c7-eb04-4ecf-a800-0b4070baf90d)
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/f5ad5891-1676-4c70-b7e9-1d52c9a0f98c)
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/47baa54a-92e8-488c-ab7d-153e6cd25995)
+
+Once the entire process is complete, it returns all the credentials, and finally we are done with the firefox credential section. 
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/675df82b-3ada-4688-9160-254e31845004)
+
+Then, the content returned from the FireFox Stealer function is saved into another variable, where XOR operation is performed on the plaintext. 
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/f0ca552b-5724-4beb-b17d-5ae526ce5d83)
+
+Next, it uses an open source re-written version of `PSUITL` in golang to kill the process, here it is Firefox.  You can find the project [here](https://github.com/shirou/gopsutil/blob/master/process/process_windows.go).
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/d21048ec-6d9a-44fd-9d69-bd2c9031dcb3)
+
+
+Similarly, just like of the firefox, the stealer does the same for Chrome Browser, which is a pure copy paste from the same project, can be found [here](https://github.com/idfp/go-stealer/blob/main/chrome.go) which involves dumping cookies, cracking login data. 
+
 
