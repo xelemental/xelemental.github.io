@@ -230,7 +230,46 @@ Next, it uses an open source re-written version of `PSUITL` in golang to kill th
 
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/d21048ec-6d9a-44fd-9d69-bd2c9031dcb3)
 
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/51cfc4a7-7dfd-470f-b827-c26c4741b826)
+
 
 Similarly, just like of the firefox, the stealer does the same for Chrome Browser, which is a pure copy paste from the same project, can be found [here](https://github.com/idfp/go-stealer/blob/main/chrome.go) which involves dumping cookies, cracking login data. 
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/e4330a74-213d-44d0-9fde-828288ba082c)
+
+Now, once the credentials are stolen, the stealer then proceeds to upload the content using Slack package for file uploading.Let us explore the workings of this function.
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/df4083d5-cbb6-4718-8343-51a5c33a7580)
+
+Initially, this function does some channel ID setup for sending the target files into a certain channel.
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/19318619-c609-49e1-8e39-83790697d03d)
+
+Them it sets the `params` structure with channel info and file details. 
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/00a2cf35-9798-4efe-979c-2caa8118401b)
+
+Now, after doing the initial setup of various structures and contexts it passes the `params.File.str` to another function `Njuypus` . Let us explore the function. 
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/f99aa40a-991f-486f-970f-8312939cbe0e)
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/1ee0207e-ca32-4430-a99b-3dbbed70f047)
+
+This function performs a new token initialization using the `New` Method from the [Slack Package](https://pkg.go.dev/github.com/eaneto/notify/service/slack#New) and uploads the file to the specific channel using this token. 
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/94ba448d-ea5d-47b5-bc37-3d8cf3a96d28)
+
+Then the next function uses `GetLogicalDrives` API from `kernel32.dll` to enumerate the available drives in the infected machine. 
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/351588df-7c01-4631-9bd4-1cb3b81386e1)
+
+The last function uses the `token_initialization_file_upload` function & fixing file names to upload the files to Slack C2 using the slack bot. 
+
+###  Features of the malware.
+
+- DLL Unhooking for avoiding Userland API Hooking.
+- Firefox & Chrome credential stealing.
+- Using Slack C2.
+- Enumeration of Logical Drives.
 
 
