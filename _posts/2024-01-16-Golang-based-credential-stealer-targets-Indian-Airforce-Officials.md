@@ -179,4 +179,25 @@ Upon opening the function, we were greeted with another interesting function kno
 Here, we can see that the function, we were greeted with is exactly similar to an open-source project known as [Go-Stealer](https://github.com/idfp/go-stealer). 
 
 
+Now, as we can see that the code is completely the same as the open source project, let us rename the functions for better understanding and continue our analysis. 
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/1cb4b84a-b23e-4e25-b857-7c0b9482fee7)
+
+Once, the `profiles` folder is enumerated from the `APPDATA` environment variable and returns the path, it then moves ahead stealing the cookie, let us rename the next function as `FireFoxStealCookies` . 
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/0d49368c-b563-464e-9350-b7a6c110eb32)
+
+Inside, StealCooking function, we have another function which basically performs dumping the cookies from the `sqlite` database located at `\cookies` path. The function takes the path as argument. 
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/a6bf90b4-24d6-4941-8c8f-26cc272934f5)
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/2befd68e-d05b-4788-9d6e-61e1bd7c24cc)
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/01ba1ea6-1e0f-468e-8221-c22eae593b88)
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/d91e88b3-c43d-4012-b456-bec7444fe343)
+
+
+Now, once it is done, dumping the cookies, it then goes ahead to crack the passwords, this time we encounter a function `Hhyvpjr` , let us explore the function. 
+
 
