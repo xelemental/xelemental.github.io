@@ -1,5 +1,5 @@
 ---
-title:  "Priv8: Technical Analysis of Rage Stealer."
+title:  "привет: Technical Analysis of Rage Stealer."
 layout: post
 categories: malware-analysis
 ---
