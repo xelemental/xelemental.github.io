@@ -59,7 +59,8 @@ Five days ago, I stumbled upon a [tweet/post](https://twitter.com/suyog41/status
 
 ## About Rage Stealer.
 
-![Blank diagram(2)](https://github.com/xelemental/xelemental.github.io/assets/49472311/021d3022-fbfc-4683-aa6a-a068ca5a7de8)
+![Blank diagram(3)](https://github.com/xelemental/xelemental.github.io/assets/49472311/502d901f-6069-46e4-bf23-a34362948649)
+
 
 
 Rage Stealer initially surfaced on the wild back in August 2023, as reported by Yogesh. Initially, it was named Priv8 stealer, but after rebranding it had a new name and some code omissions were made and it was renamed RageStealer or xStealer. The base stack of this stealer is .NET and  a Telegram Bot which it uses to forward the stolen logs, the developer of this stealer is a Vietnamese guy, who mimics a Russian individual, by adding Russian texts inside the sample.
