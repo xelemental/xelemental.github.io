@@ -47,9 +47,9 @@ categories: malware-analysis
      - Recovering Stolen credentials using TeleCommd. 
 - Victim Landscape. 
 - Code Attribution.
+- Developer Portfolio.
 - YARA Rule.
-- Developer Portfolio. 
-- Overview.
+
 
 
 ## Background.
@@ -59,7 +59,7 @@ Five days ago, I stumbled upon a [tweet/post](https://twitter.com/suyog41/status
 
 ## About Rage Stealer.
 
-Rage Stealer initially surfaced on the wild back in August 2023, as reported by Yogesh. Initially, it was named Priv8 stealer, but after rebranding it had a new name and some code omissions were made and it was renamed RageStealer or xStealer. The base stack of this stealer is programmed in .NET and it uses a Telegram Bot to forward the stolen logs the developer of this stealer is a Vietnamese guy, who mimics a Russian individual, by adding Russian texts inside the sample.
+Rage Stealer initially surfaced on the wild back in August 2023, as reported by Yogesh. Initially, it was named Priv8 stealer, but after rebranding it had a new name and some code omissions were made and it was renamed RageStealer or xStealer. The base stack of this stealer is .NET and  a Telegram Bot which it uses to forward the stolen logs, the developer of this stealer is a Vietnamese guy, who mimics a Russian individual, by adding Russian texts inside the sample.
 
 
 ## Metadata.
@@ -381,7 +381,7 @@ Now, that we have the API Token, and the channel ID let us recover the stolen cr
 
 ![xStealer(1)](https://github.com/xelemental/xelemental.github.io/assets/49472311/5eeb2a42-91f0-4b94-8e6d-7bf02e23111d)
 
-As, we can see there are only 72 victims to date, as the script stops dumping logs for the 73rd user. 
+As, we can see there are only 72 victims to date, as the script stops dumping logs for the 73rd user. But there might be cases where similar logs have been dumped multiple times. Therefore, we will sort that out in the victim landscape section.
 
 ![nsper12](https://github.com/xelemental/xelemental.github.io/assets/49472311/e3ea371b-f503-405c-b526-715b6fb56e90)
 
@@ -399,6 +399,88 @@ Finally, we were able to retain the stolen credential using TeleCommd. Now let u
 
 
 This clarifies that the dumped logs by our script are legitimate, with the most recent victim being from Germany. Due to its low price, it's easily being purchased by individuals and is currently active ITW(In the Wild). 
+
+
+## Victim Landscape.
+
+![ChartGo](https://github.com/xelemental/xelemental.github.io/assets/49472311/bf763e1e-b07c-49e8-b1c9-6aaa601647c5)
+
+After carefully sorting the data, it became crystal clear that there have been only 41 victims across the globe infected by Rage Stealer with the United States having 13 individuals affected to Switzerland having only a single victim. 
+
+
+## Code Attribution.
+
+The code from this stealer, resembles the same as [BlackGuard .NET Stealer](https://cyble.com/blog/dissecting-blackguard-info-stealer/), just the only difference is the use of .NET protector and some variable renaming. Another similarity from version one of Priv8 or Rage Stealer resembles a python stealer which is also known as RageStealer, uploaded by the developer of this stealer, you can find the repository [here](https://github.com/RAGE217/RageStealerV3). 
+
+
+## Developer Portfolio.
+
+The Rage Stealer is developed by a Vietnamese guy AKA `Trương Ngọc Khánh` . Trương frequently maintains decent activity at his [Original GitHub account](https://github.com/TNK-ADMIN] where he mentions his general whereabouts that is his social accounts & his [website](https://tnkdev.io.vn/) which now just returns a JSON of his Facebook profile. 
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/2548a487-5b22-4781-bf39-a76a6bb06954)
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/f07faa1f-dcc9-42c4-9d01-a8228aecb8b7)
+
+
+He loves programming in Python, so he initially programmed Rage Stealer in Python, created an alias and uploaded his work to an alternate Github account. 
+
+![F1zWMjvWYAAQnu5](https://github.com/xelemental/xelemental.github.io/assets/49472311/f83b4669-08fc-4f78-ab6a-3d12020f36a7)
+
+Later, the same stealer was re-written by him and was detected by Yogesh's hunting rules. 
+
+![F1zWRu7XsAA4OOm](https://github.com/xelemental/xelemental.github.io/assets/49472311/19bbba83-4423-433c-bdbb-15e7616d595e)
+
+This log, from Yogesh's tweet, clearly shows that the channel name goes by `Tnk_K07VN`.
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/b05f5965-0af7-4b88-b327-6abc17005add)
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/c7550e00-058e-46ae-937f-c557e4c2f3c9)
+
+
+
+Now, as we know pretty well Trương is an avid Python programmer, he then decided to release [two projects](https://pypi.org/user/k07vn/) one of obfuscation and the other generally a cryptography-based project. One of them had his name, his alias mentioned. 
+
+Now, after a little bit of re-branding and removing the Roblox part of the stealer and the credit card stealing part, Trương has dumped his old alias and is now known as `nsper` and Rage Stealer has been re-branded to xStealer. 
+
+
+## YARA Rule
+
+Wrote a very simple YARA Rule, if you feel something is wrong with it, please reach out! Thanks! 
+
+```yara
+import "pe"
+
+import "pe"
+
+rule RageStealer 
+{
+    meta:
+        author = "ElementalX"
+        date = "2024-01-24"
+        description = "Detects Rage-Stealer"
+        hash = "0623dbe28b6054553016d7d43bf876a1"
+        source = "https://xelemental.github.io/Priv8-Technical-Analysis-of-Rage-Stealer/"
+    strings:
+        $str0 = "RageStealer"
+        $str1 = "Chrome"
+        $str2 = "xStealer"
+        $str3 = "ProtonVPN"
+        $str4 = "zip"
+        $str5 = "Grabbed Files"
+        $str6 = "Armory"
+        $str7 = "Exodus"
+        $str8 = "Information.txt"
+        $str9 = "Discord"
+    condition:
+        uint16(0) == 0x5a4d and
+        filesize < 1MB and
+        7 of them
+}
+
+
+
+
 
 
 
