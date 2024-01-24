@@ -10,7 +10,7 @@ categories: malware-analysis
 - About Rage Stealer.
 - Metadata.
 - Basic Static Analysis.
-- Credential & Info Stealing: кошельками.
+- Credential & Info Stealing: Part-I.
     - Armory Wallet.
     - Atomic Wallet.
     - Bitcoin Core Wallet.
@@ -24,22 +24,21 @@ categories: malware-analysis
     - ZCash Wallet.
     - Jaxx Liberty Wallet.
     - Overview.
-- Credential & Info Stealing: СистемИнфа.
+- Credential & Info Stealing: Part II.
     - GeoIP.
     - Screen Grabbing.
-    - File Enumeration.
     - Process Enumeration.
     - System Enumeration.
-- Credential & Info Stealing : виртуальная частная сеть
+- Credential & Info Stealing: Part III
     - ProtonVPN.
     - OpenVPN.
     - NordVPN.
-- Credential & Info Stealing : Социальные сети и обмен информацией
+- Credential & Info Stealing: Part IV
     - Discord.
     - FileZilla.
     - Telegram.
     - Vime.
-- Credential & Info Stealing : браузер
+- Credential & Info Stealing: Part V
      - Chrome
      - Firefox
 - Infrastructure Analysis.
@@ -85,7 +84,7 @@ Interesting string/s :
 - `6623563227`: Telegram Chat ID.
 
 
-## Credential & Info Stealing: кошельками.
+## Credential & Info Stealing: Part-I.
 
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/0d166441-98d0-4a03-af12-1701e51e351d)
 
@@ -133,3 +132,97 @@ The DSHcoinStr function targets the DashCore cryptocurrency wallet and it uses a
 
 
 ### Electrum Wallet.
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/d8be3aba-058e-4064-9426-7ee6f1db248d)
+
+The EleStr function targets Electrum Wallet and it utilizes a try..catch exception and iterates through files in the \\Electrum\\wallets directory under the AppData path. For each file found, the function creates a corresponding directory in the specified target path (directorypath + Electrum.ElectrumDir). The file is then copied to this target directory using the CopyTo method. The function increments counters (Electrum.count and Counting.Wallets) to keep track of the number of processed files and wallets and makes sure the profiles of the wallet are exfiltrated by the stealer.
+
+
+### Ethereum Wallet.
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/1ae56507-50f1-40e1-bf33-7859498f7072)
+
+The EcoinStr function targets Ethereum Wallet and it uses a try..catch exception and iterates through files in the \\Ethereum\\keystore directory under the AppData path. For each file found, the function creates a corresponding directory in the specified target path (directorypath + Ethereum.EthereumDir). The file is then copied to this target directory using the CopyTo method. The function increments counters (Ethereum.count and Counting.Wallets) to keep track of the number of processed files and wallets and makes sure the profiles of the wallet are exfiltrated by the stealer.
+
+
+
+### Litecoin Core Wallet.
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/40e0153b-8144-4a6a-b95d-e165fe11629f)
+
+The LitecStr function targets Litecoin Wallet and it uses a try..catch exception and then it attempts to access the Windows Registry to retrieve information about the Litecoin Core wallet. Specifically, it looks for registry keys under `"Software" -> "Litecoin" -> "Litecoin-Qt"`. Upon successfully obtaining this information, the function creates a target directory (directorypath + "\\Wallets\\LitecoinCore\\") and copies the wallet.dat file from the specified location in the registry (registryKey.GetValue("strDataDir").ToString() + "\\wallet.dat") to the newly created directory. The function increments counters (LitecoinCore.count and Counting.Wallets) to keep track of the number of processed files and wallets and makes sure the profiles of the wallet are exfiltrated by the stealer.
+
+
+### Monero Wallet.
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/55e6ed30-caae-4fc3-b921-9e881dda94f2)
+
+The XMRcoinStr function targets Monero Wallet and it uses a try..catch exception and attempts to access the Windows Registry to retrieve information about the Monero wallet. Specifically, it looks for registry keys under `"Software" -> "monero-project" -> "monero-core"`. Upon successfully obtaining this information, the function creates a target directory (directorypath + Monero.base64xmr) and copies the wallet file from the specified location in the registry. The function increments counters (Monero.count and Counting.Wallets) to keep track of the number of processed files and wallets and makes sure the profiles of the wallet are exfiltrated by the stealer.
+
+
+### Exodus Wallet.
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/f5cc62ed-2b34-4f03-ba3c-0e8606530097)
+
+The ExodusStr function targets the Exodus Wallet and it uses a try..catch exception and iterates through files in the `\\Exodus\\exodus.wallet\\` directory under the AppData path. For each file found, the function creates a corresponding directory in the specified target path (directorypath + Exodus.ExodusDir). The file is then copied to this target directory using the CopyTo method. The function increments counters (Exodus.count and Counting.Wallets) to keep track of the number of processed files and wallets and makes sure the profiles of the wallet are exfiltrated by the stealer.
+
+
+### ZCash Wallet.
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/d2e82695-cba2-4dd8-a5d7-a10a127692f0)
+
+The ZecwalletStr function targets the ZCash Wallet and it uses a try..catch exception and iterates through files in the `\\Zcash\\` directory under the AppData path. For each file found, the function creates a corresponding directory in the specified target path (directorypath + Zcash.ZcashDir). The file is then copied to this target directory using the CopyTo method. The function increments the counter (Counting.Wallets) to keep track of the number of processed wallets and makes sure the profiles of the wallet are exfiltrated by the stealer.
+
+
+### Jaxx Liberty Wallet.
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/2dca870b-2e60-4c52-bfc4-e8e4c426fc92)
+
+The JaxxStr function targets the Jaxx Liberty wallet and it uses a try..catch exception & iterates through files in the `\\com.liberty.jaxx\\IndexedDB\\file__0.indexeddb.leveldb\\` directory under the AppData path. For each file found, the function creates a corresponding directory in the specified target path (directorypath + Jaxx.JaxxDir). The file is then copied to this target directory using the CopyTo method. The function increments counters (Jaxx.count and Counting.Wallets) to keep track of the number of processed files and wallets and makes sure the profiles of the wallet are exfiltrated by the stealer.
+
+
+### Overview.
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/07eb4a1b-180b-4066-ace7-98e0673c1372)
+
+Once the stealing is performed the credentials of the wallets are loaded into their specific directories and in case this fails, the message `Старт грабера с кошелями дал сбой"` is printed by this sample indicating a failed task of wallet information stealing. 
+
+
+## Credential & Info Stealing: Part II.
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/83e05c2c-5ccd-4a4b-81d9-fa9daaca0253)
+
+The Rage Stealer, post stealing wallet profiles and information, also exfiltrates various system information like a list of processes, geolocation, and various other system-based information. Let us dive into that.
+
+
+### GeoIP.
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/65e48c5a-b658-4379-97ee-5fa43d95f81f)
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/994a0a94-38d2-432c-b472-48e4d610a64a)
+
+The `Ethernet` function uses a try..catch exception to and inside the `try` block of code it uses `https://ip-api.com/` geolocation API to query the current geolocation of the system and retrieves it in an XML format. 
+
+
+### Screen Grabbing.
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/761177b4-9f89-4d54-9dcc-f57bc59b4477)
+
+The `GetScreen` function utilizes the `BitMap` object to create dimensions of the size of the screen and then uses the `Graphics.CopyFromScreen` method to copy and then saves the image in a PNG format using the `Save` method from the bitmap object with a filename `Screen.png` for exfiltration. 
+
+
+### Process Enumeration.
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/68e29674-e91f-4ab6-8732-53dd96980de7)
+
+The `WriteProcess` function uses a for-each loop inside which it employs the `GetProcess` method to enumerate all processes and saves the name of the processes inside a file which is created for exfiltration known as `\\Process.txt` . The other function `ProcessExecutablePath` enumerates the executable path of the process's binaries with a format `Process ID: Executable Path `. 
+
+
+### System Enumeration.
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/c14f7310-71ff-4887-8ab6-f7da3d4e5a7b)
+
+The `GetSystem` function uses various other methods from the SystemInfo Object like `GetSystemVersion` which returns the OS version, then it queries the clipboard data using another method `GetBuffer`, then it uses method `ScreenMetrics` to query the screen resolution, and then uses `GetProcessorID` to enumerate the HWID and then it queries the CPU information using the `GetCPUName` which returns the processor information, and then it uses `GetRAM` method to query the physical memory available in the target computer, then it queries GPU information using the `GetGpuName` method and finally it uses `IP * Country` which returns the IP address and the two-letter country code and finally the BSSID using the `GetBSSID` method. After querying all this information, it saves it in a file known as `\\Information.txt` for exfiltration. 
+
+
+
