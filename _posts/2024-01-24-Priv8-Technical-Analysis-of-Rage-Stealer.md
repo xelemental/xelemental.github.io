@@ -43,7 +43,8 @@ categories: malware-analysis
      - Chrome.
 - Infrastructure Analysis.
      - Exfiltration using Telegram.
-     - Exploring Telegram C2.
+     - Exploring Telegram C2 & Stealer Channel.
+     - Recovering Stolen credentials using TeleCommd. 
 - Victim Landscape. 
 - Code Attribution.
 - YARA Rule.
@@ -355,6 +356,51 @@ The exfiltrated data is concatenated which contains the IP and other stolen arte
 I have been using a tool developed by me & Kumar[https://github.com/DoubleAtoString] known as TeleCommd[https://github.com/RixedLabs/TeleCommd] to enumerate information about telegram bots and channels, it supports various capabilities like forwarding stolen logs in NodeJS & Python, and we do plan to open-source it in few days. 
 
 Let us find the name of the bot using TeleCommd. 
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/05c56c30-ee63-4bab-8b23-78b877497012)
+
+We can see that the name of the bot is `logs_nsper_bot`. 
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/612f10c6-d377-4f32-b112-476de343bf8e) 
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/29591f6a-999e-47d0-8028-1a64be63c84f)
+
+
+Now, upon looking into the description of the bot, we can see the link to the official channel & author of the market. Let us look into the official channel. 
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/925b869b-e341-42b4-964c-0e3beeb4cc2f)
+
+And, we can see that this .NET stealer is for sale per build worth 15 US Dollars. 
+
+
+
+## Recovering Stolen credentials using TeleCommd.
+
+Now, that we have the API Token, and the channel ID let us recover the stolen credentials using Telecommd. Initially, we will see the number of victims.
+
+![xStealer(1)](https://github.com/xelemental/xelemental.github.io/assets/49472311/5eeb2a42-91f0-4b94-8e6d-7bf02e23111d)
+
+As, we can see there are only 72 victims to date, as the script stops dumping logs for the 73rd user. 
+
+![nsper12](https://github.com/xelemental/xelemental.github.io/assets/49472311/e3ea371b-f503-405c-b526-715b6fb56e90)
+
+
+Finally, we were able to retain the stolen credential using TeleCommd. Now let us do some vetting focused on the collected dump. 
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/376a0fcc-29c3-49db-b3a7-826e76d2f7d9)
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/86eb7be3-65b6-4ea2-b27e-b71a047504e1)
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/6d321333-63e8-40c2-8c4f-906c06d6ebf3)
+
+
+This clarifies that the dumped logs by our script are legitimate, with the most recent victim being from Germany. Due to its low price, it's easily being purchased by individuals and is currently active ITW(In the Wild). 
+
+
 
 
 
