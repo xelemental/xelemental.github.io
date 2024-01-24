@@ -1,5 +1,5 @@
 ---
-title:  "частный: Technical Analysis of Rage Stealer."
+title:  "Priv8: Technical Analysis of Rage Stealer."
 layout: post
 categories: malware-analysis
 ---
@@ -225,6 +225,7 @@ The `WriteProcess` function uses a for-each loop inside which it employs the `Ge
 The `GetSystem` function uses various other methods from the SystemInfo Object like `GetSystemVersion` which returns the OS version, then it queries the clipboard data using another method `GetBuffer`, then it uses method `ScreenMetrics` to query the screen resolution, and then uses `GetProcessorID` to enumerate the HWID and then it queries the CPU information using the `GetCPUName` which returns the processor information, and then it uses `GetRAM` method to query the physical memory available in the target computer, then it queries GPU information using the `GetGpuName` method and finally it uses `IP * Country` which returns the IP address and the two-letter country code and finally the BSSID using the `GetBSSID` method. After querying all this information, it saves it in a file known as `\\Information.txt` for exfiltration. 
 
 
+
 ## Credential & Info Stealing: Part III
 
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/c253c517-ffe5-4229-a939-01692ea0f328)
@@ -232,11 +233,13 @@ The `GetSystem` function uses various other methods from the SystemInfo Object l
 After stealing the system information, the stealer then moves ahead to stealing VPN applications & Gaming Profiles. Let us dive into the code and check it out. 
 
 
+
 ### ProtonVPN
 
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/75b6a0b9-892f-48a9-84c4-398dfe222a05)
 
 The function `Save` from the class `ProtonVPN` enumerates directories in the system, it then checks for the existence of this directory and, if present, proceeds to iterate through its subdirectories. Within each subdirectory, the method checks for the presence of `ProtonVPN.exe` in the path. For directories containing the executable, it further enumerates subdirectories and, for each, identifies the `user.config` file. The method then creates a corresponding directory structure in the exploitation directory AKA the directory to be exfiltrated, named after the parent directory of the `user.config` file. If the destination directory doesn't exist, it is created, and the `user.config` file is copied to this location. The process increments the Counting.ProtonVPN counter for each successfully saved ProtonVPN configuration, The method aids the stealer in the extraction and organization of ProtonVPN configurations for exfiltration.
+
 
 ### OpenVPN
 
@@ -253,6 +256,7 @@ The function `Save` from the OpenVPN class enumerates directories in the system.
 The `Save` function within the NordVPN class enumerates directories by utilizing the `GetDirectories` method and searches for NordVPN. Once the relevant directory is identified, it further explores subdirectories to locate the executable named NordVPN.exe. The function checks for the existence of the `user.config` files within these subdirectories. Upon discovering such a file, it creates a corresponding directory structure within the exploitDir (the directory designated for exfiltration). After loading the content of the XML file, it proceeds to decode the encoded credentials using the Decode method. The decoded credentials are then appended to a new file named `accounts.txt` in the exploitDir directory. This process systematically extracts and decodes NordVPN credentials, organizing them in a proper manner for exfiltration.
 
 
+
 ### Steam.
 
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/be0c2cc4-9d47-41be-9b6b-0bff92d36674)
@@ -260,11 +264,13 @@ The `Save` function within the NordVPN class enumerates directories by utilizing
 The `SteamGet` function within the Steam class, enumerates the Steam directory, then goes ahead and copies all the credentials in a file known as `AccountsList.txt` , the exfiltrated information contains information like names of Games & user config. 
 
 
+
 ## Credential & Info Stealing: Part IV
 
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/283fb96c-4e22-4654-949d-b22cae81ad45)
 
 Once, it is done stealing the VPN and gaming profiles and the passwords, it then moves ahead to steal the sensitive information related to social media services like Telegram, VimeWorld, and Discord. Let us go ahead and check it out. 
+
 
 
 ### Discord.
@@ -290,11 +296,13 @@ Once, the tokens are harvested from the files, then the `WriteDiscord` method in
 The `GetDataFileZilla` method from the FileZilla Class reads the specified FileZilla configuration file (recentservers.xml), extracts server details (host, port, user, and password), and appends the information to a StringBuilder (FileZilla.SB), then it appends the details to a log file (FileZilla.log) in the exploit directory which is to be exfiltrated. 
 
 
+
 ### Telegram.
 
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/5f2a852c-d2a0-4f8e-b5a4-b45f77e4ff23)
 
 The GetTelegramSessions method in the `Telegram` class retrieves Telegram session data. It searches for Telegram data directories, copies specific files and directories to a new location, and counts the number of Telegram sessions found. The copied files include those related to user tags, settings, and key data, and the function excludes files larger than 5 KB. The copied data is stored in a directory within the specified exploitdirectory which is to be exfiltrated. 
+
 
 
 ### VimeWorld. 
@@ -336,8 +344,17 @@ Now, after looking into the stealer capabilities and features, in this section, 
 
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/aa795a2b-1093-42bc-9403-f6173e36d21e)
 
-![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/56414408-e89d-4db0-8f4c-e88a1b020ee7)
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/b58fdd7e-da7e-434e-bffe-992113c5614a)
 
-The exfiltrated data is concatenated which contains the IP and other stolen artefacts which is then uploaded as a Zipped version and then using a certain telegram bot API token is exfiltrated to a certain channel where the malicious threat actor is waiting for the logs. 
+
+The exfiltrated data is concatenated which contains the IP and other stolen artefacts as a `caption` which is then uploaded as a Zipped version and then using a certain telegram bot API token is exfiltrated to a certain channel where the malicious threat actor is waiting for the logs. 
+
+
+### Exploring Telegram C2.
+
+I have been using a tool developed by me & Kumar[https://github.com/DoubleAtoString] known as TeleCommd[https://github.com/RixedLabs/TeleCommd] to enumerate information about telegram bots and channels, it supports various capabilities like forwarding stolen logs in NodeJS & Python, and we do plan to open-source it in few days. 
+
+Let us find the name of the bot using TeleCommd. 
+
 
 
