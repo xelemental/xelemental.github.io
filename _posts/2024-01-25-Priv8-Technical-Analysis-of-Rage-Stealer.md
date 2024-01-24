@@ -414,12 +414,12 @@ After carefully sorting the data, it became crystal clear that there have been o
 
 ## Code Attribution.
 
-The code from this stealer, resembles the same as [BlackGuard .NET Stealer](https://cyble.com/blog/dissecting-blackguard-info-stealer/), just the only difference is the use of .NET protector and some variable renaming. Another similarity from version one of Priv8 or Rage Stealer resembles a python stealer which is also known as RageStealer, uploaded by the developer of this stealer, you can find the repository [here](https://github.com/RAGE217/RageStealerV3). 
+The code from this stealer, resembles the same codebase as [BlackGuard .NET Stealer](https://cyble.com/blog/dissecting-blackguard-info-stealer/), just the only difference is the use of .NET protector and some variable renaming. Another similarity from version one of Priv8 or Rage Stealer resembles a python stealer which is also known as RageStealer, uploaded by the developer of this stealer, you can find the repository [here](https://github.com/RAGE217/RageStealerV3). 
 
 
 ## Developer Portfolio.
 
-The Rage Stealer is developed by a Vietnamese guy AKA `Trương Ngọc Khánh` . Trương frequently maintains decent activity at his [Original GitHub account](https://github.com/TNK-ADMIN] where he mentions his general whereabouts that is his social accounts & his [website](https://tnkdev.io.vn/) which now just returns a JSON of his Facebook profile. 
+The Rage Stealer is developed by a Vietnamese guy AKA `Trương Ngọc Khánh` . Trương frequently maintains decent activity at his [Original GitHub account](https://github.com/TNK-ADMIN) where he mentions his general whereabouts that is his social accounts & his [website](https://tnkdev.io.vn/) which now just returns a JSON of his Facebook profile. 
 
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/2548a487-5b22-4781-bf39-a76a6bb06954)
 
