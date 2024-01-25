@@ -455,8 +455,6 @@ Wrote a very simple YARA Rule, if you feel something is wrong with it, please re
 ```yara
 import "pe"
 
-import "pe"
-
 rule RageStealer 
 {
     meta:
