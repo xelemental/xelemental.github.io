@@ -480,7 +480,7 @@ rule RageStealer
         7 of them
 }
 
-
+```
 
 
 
