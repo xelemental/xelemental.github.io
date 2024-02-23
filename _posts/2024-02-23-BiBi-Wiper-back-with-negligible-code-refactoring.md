@@ -1,5 +1,5 @@
 ---
-title:  "BiBiWiper: Back with negligible code-refactoring."
+title:  "BiBiWiper: Wiper Malware back with negligible code-refactoring."
 layout: post
 categories: malware-analysis
 ---
