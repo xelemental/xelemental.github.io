@@ -17,4 +17,5 @@ categories: malware-analysis
 - Shift in maturity.
 - Victim Landscape.
 - Recent Wipers & similarities.
+- MITRE ATT&CK Mapping.
 - YARA Rules.
