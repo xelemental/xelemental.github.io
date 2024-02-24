@@ -1,5 +1,5 @@
 ---
-title:  "BiBiWiper: Wiper Malware back with negligible code-refactoring."
+title:  "BiBiWiper: Wiper Malware back after negligible code-refactoring."
 layout: post
 categories: malware-analysis
 ---
@@ -9,7 +9,7 @@ categories: malware-analysis
 - Background.
 - About BiBiWiper Malware.
 - Metadata.
-- Basic Static Analysis.
+- Technical Analysis.
   - Part-I: Initial ITW Release[October-2023]
   - Part-II: Recent ITW Release[February-2024]
   - Comparing technical capabilities.
@@ -38,4 +38,10 @@ Recently, while browsing Twitter or X, I came across a post from the [Symantec T
 
 ### About BiBiWiper Malware. 
 
-At the beginning of this blog, we agreed that wiper malware often shows up during political or geographical turmoil. Let's now figure out why this happens and understand the name given to this type of wiper malware.
+At the beginning of this blog, we agreed that wiper malware often shows up during political or geographical turmoil. Let's now figure out behind this and understand the name given to this wiper malware.
+
+The name "BiBiWiper" derives from the nickname of the Prime Minister of Israel, [Benjamin Netanyahu](https://en.wikipedia.org/wiki/Benjamin_Netanyahu). Given the ongoing turmoil between Israel and various separatist organizations like PIJ, Harakat al-Muqawama al-Islamiya, and others, the connection & relation becomes apparent. This unrest has deep roots and has been fueled by diverse political beliefs, leading to a [devastating incident in Israel](https://en.wikipedia.org/wiki/2023_Hamas-led_attack_on_Israel) in 2023, contributing to turbulent conditions.
+
+In the realm of cyberspace, the notoriety of these groups also plays a substantial role. Initially developed and deployed by Hamas or Harakat al-Muqawama al-Islamiya's cyber department, BiBiWiper targeted Linux systems, as reported by SecurityJoes, a security vendor. Subsequently, it was discovered that the wiper also targeted Windows systems, affecting various business industries based in Israel. Recently, a new strain or variant of BiBiWiper has been identified, representing a rewrite of the original wiper, with a continued focus on the same domain of victims.
+
+The unmasking of cyber operations focused on Hamas is unfortunately limited in this blog post, but if you want to read and know more about them, I would suggest going through Recorded Future's [article on infrastructure overlap](https://www.recordedfuture.com/hamas-application-infrastructure-reveals-possible-overlap-tag-63-iranian-threat-activity) between Hamas & Iranian Threat Actors, also this [article](https://www.atlanticcouncil.org/in-depth-research-reports/report/the-cyber-strategy-and-operations-of-hamas-green-flags-and-green-hats/) by Simon Handler. 
