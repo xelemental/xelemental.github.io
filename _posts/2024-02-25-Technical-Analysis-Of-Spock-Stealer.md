@@ -60,7 +60,7 @@ Go-build ID: `"hyJI5wXtKgEwMeLZtwm5/SkRZinb1FBXW1ONyASbu/SlLnz5DZLKjb_mHyQtXl/tY
 
 File Type: `Portable Executable 64`
 
-VirusTotal Detection: `9/72` 
+VirusTotal Detection: `12/72` 
 
 
 
@@ -89,7 +89,7 @@ Then from the return object which is the slice, it then from the same net packag
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/e5c6efdf-f1c6-49a4-8887-1d44aa46a099)
 
 
-Then, it checks that if the IP Address is a loopback address using the `IP_IsLoopback` function. Then the IP Address is stored in a slice and then the loop continues, and finally the function returns the IP Address. Now, let us explore the next function. 
+Then, it checks if the IP Address is a loopback address using the `IP_IsLoopback` function. Then the IP Address is stored in a slice and then the loop continues, and finally the function returns the IP Address. Now, let us explore the next function. 
 
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/7022d963-67b9-49f0-8ccd-61c1c14d076f)
 
@@ -98,6 +98,69 @@ Upon exploring this function, we can see that this function uses a Golang packag
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/92fc7f6f-1feb-4cab-90d4-bd6612e8713a)
 
 This function creates a slice which is used to store the returned value from the [`GetComputerNameEx`](https://learn.microsoft.com/en-us/windows/win32/api/sysinfoapi/nf-sysinfoapi-getcomputernameexa) API called in Golang, and finally, the slice is returned which contains the hostname. Now let us move ahead to the next function. 
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/3db5046b-4c4a-4526-893a-bc93e94d2cdf)
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/ebb62ac3-e6a9-4a3e-8777-37426137c193)
+
+
+Upon exploring this function, we can see that this function uses a Golang package known as [`os`](https://pkg.go.dev/os) which further uses a function known as [`Current`](https://cs.opensource.google/go/go/+/refs/tags/go1.22.0:src/os/user/lookup.go;drc=185766de0ff2810ee018501addb1f58be2226856;l=21), to enumerate the current user. 
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/926d20c3-263d-440a-b274-3c55b41d39e7)
+
+
+Upon enumerating the current user, it goes ahead and lists the groups from the enumerated user. 
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/9aed017b-8940-4473-a0e3-712d3ed5c841)
+
+Now, upon enumerating the group, it goes ahead and enumerates the group ID. 
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/19e3343e-70e5-407d-aaf8-dcb4467f4d6c)
+
+
+Now, once all the data is enumerated it saves the data into a slice object and finally returns from the function. The returned data from this function looks something like this `"groups":["S-1-5-32-544 = Administrators", "S-1-5-32-545 = Users", "S-1-5-21-2246122658-3693405117-2476756634-513 = None"]`. Thanks to Joe Sandbox.  Now, let us move ahead with the next function. 
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/51aa8962-b465-4a9a-8c9e-b40d8a892314)
+
+
+Upon exploring this function, we can see that this function is responsible for capturing screenshots. 
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/3638fc18-c644-4fbb-a5dd-6d4092fd04e6)
+
+
+As we can see this function uses an open source for capturing screenshots, initially, it uses `NumActiveDisplays` to enumerate the number of displays available. 
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/6f0bffee-9587-4788-aec9-4098a6c9aea1)
+
+
+Then it gets the coordinates of the display which is it about to capture, and finally, it does capture it. 
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/67f7cb2d-614e-446e-8601-67d5e25e53d1)
+
+Then, it encodes the data in PNG format. 
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/ec8b9457-33ef-4e45-abf8-926b6e7e3c07)
+
+
+Then, it goes ahead and converts the PNG data to base64 encoding, and stores it in a slice object, which is finally returned from this `getScreenshot` function.  Now, let us move ahead to the next function. 
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/3fdf1cf5-3776-407b-ad0c-8238ef45b1fe)
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/72055331-d6a0-4c7e-b003-87f13014fcf7)
+
+
+
+Upon, looking into the function, we can see that the function is using [`gopsutil`](https://github.com/shirou/gopsutil/tree/master/process) to enumerate the running process in the target machine, and finally the data is tored in a slice object, which is returned. 
+
+
+
+
 
 
 
