@@ -156,7 +156,22 @@ Then, it goes ahead and converts the PNG data to base64 encoding, and stores it 
 
 
 
-Upon, looking into the function, we can see that the function is using [`gopsutil`](https://github.com/shirou/gopsutil/tree/master/process) to enumerate the running process in the target machine, and finally the data is tored in a slice object, which is returned. 
+Upon, looking into the function, we can see that the function is using [`gopsutil`](https://github.com/shirou/gopsutil/tree/master/process) to enumerate the running process in the target machine, and finally, the data is stored in a slice object, which is returned from this function. Now, let us move ahead to the next function.
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/6ae834d3-e626-4e7d-85d6-232cc9a7cc98)
+
+Here, we can see that there is a call to a function `syscall_Environ`, let us explore the function. 
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/173dc7fc-0dcf-449c-b92c-97ef725d9078)
+
+This function is basically for returning the environment variables for the current process, which is indirectly using [`GetEnvironmentStrings`](https://learn.microsoft.com/en-us/windows/win32/api/processenv/nf-processenv-getenvironmentstrings) Windows API in the Golang code. 
+
+Now, let us move ahead to the next function. 
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/9763fdb1-460e-4c9a-afcf-c24b8a83c11c)
+
 
 
 
