@@ -1,5 +1,5 @@
 ---
-title:  "Winver: Reverse-Engineering and Peekings inside PatchWork APTs recent Golang implant."
+title:  "Winver: Reverse-Engineering PatchWork APTs recent Golang implant."
 layout: post
 categories: reverse engineering
 ---
