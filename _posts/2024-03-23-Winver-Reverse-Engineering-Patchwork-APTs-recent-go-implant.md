@@ -115,13 +115,11 @@ Again, a very similar pattern is being followed, thanks to Wireshark filters, we
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/6f535ee8-57c7-41bc-87cb-4018ba185cc2)
 
 
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/0cee2692-937b-49d7-839c-b4ac66ec3761)
+
+
+Upon browsing, this `sendPing` function, we see that the implant is trying to enumerate the `UUID` of the target device using `wmic` and then later using these individual strings as arguments for `os_exec_Command` function, to run it. Just when the implant runs, a window `wmic.exe` pops up and quickly terminates. 
 
 
 
 
-
-
-
-
-
-`
