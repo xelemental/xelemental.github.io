@@ -133,7 +133,33 @@ Then, the implant uses `os` package code from the Golang library, to enumerate t
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/2bcd3e94-9465-413f-8a5f-d314ee77ae2d)
 
 
-Then, we have another function known as `encryptRC4` which performs as per the nomenclature of the function and encrypts the enumerated data performed by those functions, which we just saw using the RC4 algorithm.
+Then, we have another function known as `encryptRC4` which performs as per the nomenclature of the function and encrypts the enumerated data performed by those functions, which we just saw using the RC4 algorithm. Let us move ahead with the rest of the code.
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/690e157e-c955-4354-8ec1-12b1b99921e4)
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/64f0226d-34b9-4e01-85fa-add6a37ea186)
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/a6a296d5-c03a-45ba-b440-bd419b8f4193)
+
+
+Here, we encounter another function known as `getHostName`. As, the name says it uses `hostname` function from the `os` package in Golang to enumerate the hostname and return it, later which gets encrypted using RC4.
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/025afa5b-a71a-4579-a12e-f5d3ce009ec0)
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/26b3f98d-1166-4ef8-978a-791ed9264b0a)
+
+
+Now, here we encounter another function known as `getExternalIPAndCountryCode` which enumerates the IP Address and then geolocates it using [IP-API](https://ip-api.com/) service and returns the data for exfiltration. 
+
+
+
+
+
 
 
 
