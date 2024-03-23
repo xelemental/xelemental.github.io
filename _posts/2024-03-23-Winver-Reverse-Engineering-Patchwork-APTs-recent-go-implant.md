@@ -1,5 +1,5 @@
 ---
-title:  "Winver: Reverse-Engineering PatchWork APTs recent Golang implant."
+title:  "Winver: Reverse-Engineering PatchWork APT's recent Golang implant."
 layout: post
 categories: reverse engineering
 ---
@@ -64,6 +64,32 @@ Well, I was initially pretty much confused about the nomenclature of the implant
 
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/265ba517-0c8c-4dc7-9c95-73c3745af5f6)
 
-Thanks to PEStudio, for these details. Pretty impressive tool as always, it mapped few artefacts making it more clear, giving a clear overview of the sample. 
+Thanks to PEStudio, for these details. Pretty impressive tool as always, it mapped a few artefacts making it clearer and giving a clear overview of the sample. Now, in the next sections of the blog, we will use IDA-Freeware to reverse engineer the implant binary. 
+
+
+
+
+##  Reverse Engineering the implant using IDA-Freeware - I
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/2a2f93b5-3c01-4dde-adb7-fcb65c23bd1b)
+
+Well, as soon as we load the file in IDA-Freeware and post-autoanalysis, we have the actual `main` folder, which contains a bunch of interesting functions, well the reason am calling it a folder is because post-recent additions to IDA disassembler's capabilities allow, a bunch of functions to be scrutinized under a certain package like `os`, `http` etc. So, am lucky, that I do not have to hover around every function and find co-relations, saving me some time. 
+
+And, as the number of functions is 20. We will cover the working of each function in this blog post by covering the initial ten functions, in this first part and the rest in the next section of blogs.
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/62a50e6f-90c4-44f4-abd0-a5e6e73a0d96)
+
+Upon landing in the `main` folder, we are welcomed with the very first function `main_main`, which is the actual `main` function, which calls the other 19 functions. Let us now go ahead to the next function. If you want to understand, a bit in-depth about the `main` function, refer to this [blog post.](https://medium.com/@nishanmaharjan17/reversing-golang-binaries-part-1-c273b2ca5333)
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/cb94935f-6004-4601-a0f1-320ccfbafa5a)
+
+Now, here we encounter a function named `setConsoleCodePage`, let us go through the workings of this function. 
+
+
+
+
+
 
 
