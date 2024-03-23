@@ -118,6 +118,7 @@ Again, a very similar pattern is being followed, thanks to Wireshark filters, we
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/0cee2692-937b-49d7-839c-b4ac66ec3761)
 
 
+
 Upon browsing, this `sendPing` function, we see that the implant is trying to enumerate the `UUID` of the target device using `wmic` and then later using these individual strings as arguments for `os_exec_Command` function, to run it. Just when the implant runs, a window `wmic.exe` pops up and quickly terminates. 
 
 
@@ -126,12 +127,17 @@ Upon browsing, this `sendPing` function, we see that the implant is trying to en
 Then, the implant uses `os` package code from the Golang library, to enumerate the current username.
 
 
-![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/2bcd3e94-9465-413f-8a5f-d314ee77ae2d)
-
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/f7f1e965-712d-49a6-8fba-23aa6736f0a5)
 
 
-Then, we have another function known as `encryptRC4` which performs as per the nomenclature of the function and encrypts the enumerated data performed by those functions, which we just saw using RC4. 
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/2bcd3e94-9465-413f-8a5f-d314ee77ae2d)
+
+
+Then, we have another function known as `encryptRC4` which performs as per the nomenclature of the function and encrypts the enumerated data performed by those functions, which we just saw using the RC4 algorithm.
+
+
+
+
 
 
 
