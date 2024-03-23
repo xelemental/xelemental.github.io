@@ -1,4 +1,4 @@
-![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/8d9eed7c-f055-4315-a85d-d637b5985aec)---
+---
 title:  "Winver: Reverse-Engineering PatchWork APT's recent Golang implant."
 layout: post
 categories: reverse engineering
@@ -109,7 +109,7 @@ Then, we see another weird-looking string loaded into the `RAX` register just li
 ![Yogesh's tweet](https://github.com/xelemental/xelemental.github.io/assets/49472311/7ef0185f-8325-439b-8e4c-be725edb9fe2)
 
 
-Again, a very similar pattern is being followed, thanks to Wireshark filters, we figured out that the weird-looking string `AGCXHMYAJVKDHBRACJNKHX` is the unique User-Agent, which will be used to send a simple `POST` or in layman terms for connecting back to the C2. Next we have a function known as `sendPing`.
+Again, a very similar pattern is being followed, thanks to Wireshark filters, we figured out that the weird-looking string `AGCXHMYAJVKDHBRACJNKHX` is the unique User-Agent, which will be used to send a simple `POST` or in layman terms for connecting back to the C2. Next, we have a function known as `sendPing`.
 
 
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/6f535ee8-57c7-41bc-87cb-4018ba185cc2)
