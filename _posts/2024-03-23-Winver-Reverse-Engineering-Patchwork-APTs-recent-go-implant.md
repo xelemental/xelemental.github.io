@@ -1,4 +1,4 @@
----
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/8d9eed7c-f055-4315-a85d-d637b5985aec)---
 title:  "Winver: Reverse-Engineering PatchWork APT's recent Golang implant."
 layout: post
 categories: reverse engineering
@@ -85,7 +85,34 @@ Upon landing in the `main` folder, we are welcomed with the very first function 
 
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/cb94935f-6004-4601-a0f1-320ccfbafa5a)
 
-Now, here we encounter a function named `setConsoleCodePage`, let us go through the workings of this function. 
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/299d6cf3-0c9b-4f77-8057-51b7e6c61b21)
+
+
+Now, here we encounter a function named `setConsoleCodePage`, let us go through the workings of this function.  As we can see argument `65001` is being passed to the `setConsolePage` function. 
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/460bd613-a0cc-4667-9e6f-4855c0776e22)
+
+Turns out that the code is using [`exec`](https://pkg.go.dev/os/exec) package from golang, to execute this command `cmd chcp /C` which will change the current code page to [`UTF-8`](https://ss64.com/nt/chcp.html) and immediately terminate the cmd window. That's the purpose of this function. 
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/c29522f1-9d0f-4098-b5a6-106216ad2261)
+
+After moving ahead with the analysis of the code, we could see that a URL is mostly acting as a command & control server here.
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/9925c2ce-93ec-48a5-96c6-afbf4c676758)
+
+Then, we see another weird-looking string loaded into the `RAX` register just like the URL of the C2 had been loaded. 
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/58d5d323-06f6-4498-8356-80294a7aec52)
+
+
+![Yogesh's tweet](https://github.com/xelemental/xelemental.github.io/assets/49472311/7ef0185f-8325-439b-8e4c-be725edb9fe2)
+
+
+Again, a very similar pattern is being followed, thanks to Wireshark filters, we figured out that the weird-looking string `AGCXHMYAJVKDHBRACJNKHX` is the unique User-Agent, which will be used to send a simple `POST` or in layman terms for connecting back to the C2. Next we have a function known as `sendPing`.
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/6f535ee8-57c7-41bc-87cb-4018ba185cc2)
 
 
 
@@ -93,3 +120,8 @@ Now, here we encounter a function named `setConsoleCodePage`, let us go through 
 
 
 
+
+
+
+
+`
