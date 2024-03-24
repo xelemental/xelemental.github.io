@@ -23,8 +23,6 @@ categories: reverse engineering
 
 
 
-
-
 ## Background.
 
 Recently, since I started publishing blogs once again in January 2024, I have come across a lot of samples written in Golang, be it generic stealers like the ones in my previous [blog posts](https://xelemental.github.io//), be it new stealers in the market, like [Planet Stealer](https://inquest.net/blog/around-we-go-planet-stealer-emerges/), then I did come across a demo or random ransomware which was in the wild, I cannot recall the name, while drafting this blog post. So, I have decided to throw my skill under the golang malware bus and check the calibre of my present skillset of analyzing Golang Malware. 
@@ -57,14 +55,14 @@ Well, it turns out that this certificate has been issued by an [IT Consulting co
 
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/73ff6f5d-6343-4d78-be0f-049fafdc3635)
 
-Well, I was initially pretty much confused about the nomenclature of the implant which is `Apollo ` as per the security researchers tracking this threat group. Well, then it turns out the project path's name is Apollo. 
+Well, I was initially pretty much confused about the nomenclature of the implant, ' Apollo `, as per the security researchers tracking this threat group. Well, then it turns out the project path's name is Apollo. 
 
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/89bf38f2-aba3-451e-9346-4a82b35825d4)
 
 
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/265ba517-0c8c-4dc7-9c95-73c3745af5f6)
 
-Thanks to PEStudio, for these details. Pretty impressive tool as always, it mapped a few artefacts making it clearer and giving a clear overview of the sample. Now, in the next sections of the blog, we will use IDA-Freeware to reverse engineer the implant binary. 
+Thanks to PEStudio, for these details. It is a pretty impressive tool as always, it mapped a few artefacts making it clearer and giving a clear overview of the sample. Now, in the next sections of the blog, we will use IDA-Freeware to reverse engineer the implant binary. 
 
 
 
@@ -92,12 +90,12 @@ Now, here we encounter a function named `setConsoleCodePage`, let us go through 
 
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/460bd613-a0cc-4667-9e6f-4855c0776e22)
 
-Turns out that the code is using [`exec`](https://pkg.go.dev/os/exec) package from golang, to execute this command `cmd chcp /C` which will change the current code page to [`UTF-8`](https://ss64.com/nt/chcp.html) and immediately terminate the cmd window. That's the purpose of this function. 
+Turns out that the code is using [`exec`](https://pkg.go.dev/os/exec) package from golang, to execute this command `cmd chcp /C` which will change the current code page to [`UTF-8`](https://ss64.com/nt/chcp.html) and immediately terminates the cmd window. That's the purpose of this function. 
 
 
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/c29522f1-9d0f-4098-b5a6-106216ad2261)
 
-After moving ahead with the analysis of the code, we could see that a URL is mostly acting as a command & control server here.
+After moving ahead with the code analysis, we could see that a URL is mostly acting as a command & control server here.
 
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/9925c2ce-93ec-48a5-96c6-afbf4c676758)
 
@@ -227,18 +225,84 @@ As we dive into the function, we can see that here, it tries to send a `POST` re
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/6fae2c5d-114d-4352-9fbd-849afc583f64)
 
 
-Well, moving ahead with this function, we can see that this is sending a request, before the function returns we have another interesting function known as `checkCommand`, let us explore that function.
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/a50c64df-3192-42a3-a107-2697c2c859d3)
+
+
+
+Well, moving ahead with this function, we can see that this is sending a request, before the function returns we have another interesting function known as `checkCommand`, which then, jumps to another function known as `ExecuteCommand` to execute a certain parameter passed to this function from the `checkCommand` function.
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/c779b041-3f2c-41f5-85bf-fb8211f1ce5b)
+
+
+Now, we have another function known as `getss`, let us explore the function. 
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/0093a239-8e96-4994-9a09-694126b5c41b)
+
+
+Now, we can see that inside this function, the implant is using a well-known open-source tool known as [`kbinani`](https://github.com/kbinani/screenshot) to grab screenshots from the victim machine & saving the file as `random.PNG` for exfiltration. 
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/d64ff5eb-a873-4fd5-a2ec-63c99a94afcf)
+
+
+
+Well, now we have the last function of this implant known as `sendResult`, let us explore the function.
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/7727f5f9-3cad-4dbd-a9d1-99ec6120326e)
+
+
+Upon browsing, the disassembly of this function, we can see that it is creating a simple POST request, which will be used to send the data collected by the above functions to the Command & Control(C2) server, using the unique user-agent. 
+
+
+
+With this, we are done with the reverse-engineering part of the implant. 
+
+
+
+## Features & Capabilities of the implant.
+
+- Process ID Enumeration.
+- Environment Variable Enumeration.
+- Screenshot Grabbing.
+- RC4 encryption.
+- Windows Version Enumeration.
+- IP & Geolocation enumeration.
 
 
 
 
+## Maturity of the threat actor.
+
+
+As someone, who enjoys reverse engineering but is still not good at it, it's my personal opinion from my experience of dealing with Golang malware, it looks like the threat actor has recently adopted Golang as it's part of the arsenal. We could see that the there the functionalities of the implant heavily rely on open-source projects like `kbinani` and many more, whose detections are already out there by EDR vendors. No anti-evasion technique or something  intriguing in the implant, which overall makes it look like a very hasty-unfinished work, from a developer's perspective. Apart from the employment of the RC4 algorithm to encrypt, I did not find anything challenging. But again the implant belongs to an industry labelled as supposedly nation-state threat actor, would say the maturity is average, again that's solely my opinion, which can vary from person to person. 
 
 
 
+## Implants alignment with the common go-malware landscape.
+
+As per my analysis, the implant contains a lot of open-source projects used for various purposes, similar to the implants or generic stealers I have analyzed, like the `kbinani` project for screen grabbing, so I would say aligning to the current go-malware scenario, the implant is not too different from the other implants or malware samples out there in the wild. 
+
+
+## Limitations.
+
+This blog solely focused on the reverse-engineering perspective of the sample, it does not have any methods to detect the sample or any link to analyzing the initial infection vectors which dropped this implant. So, I think that there are some limitations to this current blog post. 
 
 
 
+## Author's two cents.
 
+The opinions and keywords used in this blog are completely my opinions upon spending time analyzing this implant. If you find any information or term misleading, please do not hesitate to reach out, I will be more than happy to receive criticism & improve further. Thank you for reading.
+
+
+
+## Resources.
+
+
+- [Go Documentation](https://go.dev/).
+- Stack Overflow.
 
 
 
