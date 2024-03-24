@@ -227,7 +227,10 @@ As we dive into the function, we can see that here, it tries to send a `POST` re
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/6fae2c5d-114d-4352-9fbd-849afc583f64)
 
 
-Well, moving ahead with this function, we can see that this is sending a request, before the function returns we have another interesting function known as `checkCommand` , let us explore that function.
+Well, moving ahead with this function, we can see that this is sending a request, before the function returns we have another interesting function known as `checkCommand`, let us explore that function.
+
+
+
 
 
 
