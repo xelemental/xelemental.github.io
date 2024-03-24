@@ -1,4 +1,4 @@
-![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/95f8527a-673a-4bc5-a1fc-346c6bcd2c03)---
+---
 title:  "Winver: Reverse-Engineering PatchWork APT's recent Golang implant."
 layout: post
 categories: reverse engineering
