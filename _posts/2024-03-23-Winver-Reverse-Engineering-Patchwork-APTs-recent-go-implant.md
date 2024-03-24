@@ -1,4 +1,4 @@
----
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/95f8527a-673a-4bc5-a1fc-346c6bcd2c03)---
 title:  "Winver: Reverse-Engineering PatchWork APT's recent Golang implant."
 layout: post
 categories: reverse engineering
@@ -154,7 +154,82 @@ Here, we encounter another function known as `getHostName`. As, the name says it
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/26b3f98d-1166-4ef8-978a-791ed9264b0a)
 
 
-Now, here we encounter another function known as `getExternalIPAndCountryCode` which enumerates the IP Address and then geolocates it using [IP-API](https://ip-api.com/) service and returns the data for exfiltration. 
+Now, here we encounter another function known as `getExternalIPAndCountryCode` which enumerates the IP Address and then geolocates it using [IP-API](https://ip-api.com/) service and returns the data for exfiltration. Now, let us continue with the analysis of the rest of the functions in the next section.
+
+
+
+
+## Reverse Engineering the implant using IDA-Freeware - II
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/dd8c5376-66f3-46f6-ac3f-2891d6984120)
+
+Moving ahead, we encounter another function known as  `getWindowsVersion` let us explore the function. 
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/813974a6-43b9-4007-a3ae-f1c503823c6a)
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/3a98f096-66b4-4d9f-ad9a-57e12322e6c2)
+
+
+This function uses `golang_org_x_sys_windows_registry_OpenKey` to open the registry key, and then uses another golang function known as `golang_org_x_sys_windows_registry_Key_GetStringValue` to read the `ProductName` which helps the function to enumerate the current version of the Windows like for example `Microsoft Office Professional Plus 2010`. Once the product or version name is enumerated, it goes ahead and returns the value, which then is passed as a plaintext parameter to the `encryptRC4` function, which later encrypts it for exfiltration purposes.
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/bf6a00bc-270b-4987-96cb-258ce35de9a3)
+
+
+Next, we encounter another function known as `getExecutablePath`, let us explore the function.
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/3271a8e9-522f-4964-b593-0e598dc3d2ce)
+
+
+Then, we see that the function is using [`os_Executable`](https://go.dev/src/os/executable.go) a golang function to query the path which launched the executable, later then once the function returns the path, it uses another function from the file path module, known as [`Abs`](https://pkg.go.dev/path/filepath#Abs) which returns an absolute representation of the path. If the path is not absolute it will be joined with the current working directory to turn it into an absolute path. 
+
+Therefore, it returns the absolute path of the implant, which launched it. 
+
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/eaff4590-6eae-4a07-b483-17dc797d2905)
+
+
+Next, we have another function, known as `main_getCurrentProcessID`, let us explore the function. 
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/83f98c79-c513-425a-a694-0ec7aa84439d)
+
+We can see that the function is using the `getCurrentProcessId` function, from the windows [`syscall`](https://go.dev/src/syscall/syscall_windows.go) package to enumerate all the process IDs running in the current system, then uses a golang native function known as `FormatInt` which returns a string representation of the integer value, which is later returned by this function, and then this value is passed to `EncryptRC4` function to encrypt it which is to be exfiltrated. 
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/801d2ece-72ba-433b-871b-30f66f9fde26)
+
+
+Next, we see a native golang function known as `GetEnv` whose function signature goes like `func Getenv(key string) string`, where the only argument key is the `PROCESSOR_ARCHITECTURE`. This returns the process architecture. 
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/26bbb80b-41a5-46b2-ae98-c07cfe1d007d)
+
+
+Next, we encounter another function known as `sendHTTPRequest`. Let us explore the function. 
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/a1c56c1f-afb9-4c68-bfe2-4409e37cede6)
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/eefde45f-7b37-4565-9603-dc5c5b188ee3)
+
+
+
+As we dive into the function, we can see that here, it tries to send a `POST` request to the C2.
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/6fae2c5d-114d-4352-9fbd-849afc583f64)
+
+
+Well, moving ahead with this function, we can see that this is sending a request, before the function returns we have another interesting function known as `checkCommand` , let us explore that function.
+
+
 
 
 
