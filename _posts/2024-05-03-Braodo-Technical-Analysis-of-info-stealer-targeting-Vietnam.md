@@ -1,5 +1,5 @@
 ---
-title:  "Kẻ đánh cắp: Braodo Stealer Malware Targets Vietnam"
+title:  "Braodo: Technical Analysis of info-stealer targeting Vietnam."
 layout: post
 categories: malware-analysis
 ---
@@ -7,4 +7,5 @@ categories: malware-analysis
 
 
 ## Table Of Contents
+
 
