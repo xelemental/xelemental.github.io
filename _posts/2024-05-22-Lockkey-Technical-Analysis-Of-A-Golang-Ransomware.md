@@ -1,5 +1,5 @@
 ---
-title:  "Lockkey: Technical analysis of a Golang-Ransomware"
+title:  "Lockkey: Technical analysis of a Golang-Ransomware."
 layout: post
 categories: malware-analysis
 ---
