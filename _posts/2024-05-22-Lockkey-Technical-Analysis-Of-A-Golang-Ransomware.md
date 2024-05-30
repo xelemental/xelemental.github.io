@@ -124,7 +124,9 @@ Now, moving ahead to the fourth graph node, we can see that in case the processe
 We can see that this function is responsible for executing `vssadmin delete shadows /all /quiet` which is responsible for deleting all shadow copies. 
 
 
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/a871f01f-fa20-48de-b334-d27af5bd6d92)
 
 
+Next, we move ahead to the other graph node, where we can see a function, `config_Dirs` being called which is responsible for enumerating all the possible directories present on the drives, this is achieved by constructing a simple loop. 
 
 
