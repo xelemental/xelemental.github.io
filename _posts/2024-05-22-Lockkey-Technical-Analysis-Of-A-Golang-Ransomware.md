@@ -49,7 +49,7 @@ Once, we are done downloading the sample, we go ahead with loading the sample on
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/0c031239-97fd-45d6-acca-8b0abc7fe189)
 
 
-`Go build ID: "GEpiHmfNPehj-aQoWitd/sZWzxps9LkqWENj7tz61/mE_KWXQ-UwK0Xa5HpFKC/5EJgSMP8RHTKwJhmft2d"`
+`GEpiHmfNPehj-aQoWitd/sZWzxps9LkqWENj7tz61/mE_KWXQ-UwK0Xa5HpFKC/5EJgSMP8RHTKwJhmft2d`
 
 
 We could, fortunately, find one of the instrumental artefacts in the build ID of this sample, which can be incorporated into the detection rule, while hunting for similar samples on various popular malware corpus like VirusTotal and much more. 
