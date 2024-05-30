@@ -94,7 +94,7 @@ Initially, it loops through the processes which, it receives as an argument from
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/cefd7b40-79ca-41b0-b210-4c48e3f3e802)
 
 
-Then, it goes ahead and appends the `.exe` extension into the processes which have been loaded from the previous data structure, in case they do not have it. 
+Then, it goes ahead and appends the `.exe` extension into the processes loaded from the previous data structure, in case they do not have it. 
 
 
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/71317cda-761c-4ec0-aa44-34050d6c6e63)
@@ -104,7 +104,7 @@ Then, it goes ahead and appends the `.exe` extension into the processes which ha
 
 Then, it goes ahead with appending the `taskkill /im /f ` command to forcibly terminate the process using `taskkill` system utility, which is executed using `os_exec` [golang](https://pkg.go.dev/os/exec) command, which is used to run the system commands in Golang code.  
 
-Therefore, we can now conclude that the second part of the code in this graph is used to terminate the processes using task-kill post-loading the processes. 
+Therefore, we can now conclude that the second part of the code in this graph is used to terminate the processes using task-kill post-loading. 
 
 
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/8e4379a9-f0d2-417f-9267-10b20f816d61)
@@ -133,6 +133,33 @@ Next, we move ahead to the other graph node, where we can see a function, `confi
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/c4e8f2c6-ca6e-4984-b88b-66fed47f9f23)
 
 Now, we can see that in the fifth[`5`] node of the graph, we have a simple comparison against the `rax` register, and the code flow jumps to the sixth[`6`] node of the graph, let us explore the first function inside the sixth graph node, which is `main_main_func1`.
+
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/4a11e8c1-98b6-4b99-aa4a-dafe24ce3cc7)
+
+
+Initially, as we saw that the code, where it enumerated the directories, this function uses those enumerated directories, at first it prints a `Walking` message.
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/0c1bf630-8a7d-4daf-9c24-a25de367c09e)
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/6a67cf1e-c76c-45ea-94b6-a1503aa2b348)
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/2f9828df-85a3-4b46-b262-832031b4545d)
+
+
+
+
+Then, using `path_filepath_Base` it gets the base name of the file from the directory, later when the check is fulfilled, it goes ahead and prints another message known as `Good File`, which is further processed in a Queue for locking. Now, once this task is complete, it calls another function known as `main_main_func1_1`. Let us check out the working of the function. 
+
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/fe7a06ec-fbc8-4280-a98e-d2a72b7eb353)
+
+
 
 
 
