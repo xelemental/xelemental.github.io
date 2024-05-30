@@ -110,7 +110,7 @@ Therefore, we can now conclude that the second part of the code in this graph is
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/8e4379a9-f0d2-417f-9267-10b20f816d61)
 
 
-Then, moving ahead to the next node, we can see that, in case the code does not find the processes to terminate, it prints a message `Process Not Found` to the standard output. 
+Then, moving ahead to the next node, we can see that, if the code does not find the processes to terminate, it prints a message `Process Not Found` to the standard output. 
 
 
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/4ba5a815-95ff-40d9-ab9d-d1410bb6f390)
@@ -127,6 +127,14 @@ We can see that this function is responsible for executing `vssadmin delete shad
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/a871f01f-fa20-48de-b334-d27af5bd6d92)
 
 
-Next, we move ahead to the other graph node, where we can see a function, `config_Dirs` being called which is responsible for enumerating all the possible directories present on the drives, this is achieved by constructing a simple loop. 
+Next, we move ahead to the other graph node, where we can see a function, `config_Dirs` being called which is responsible for enumerating all the possible directories present on the drives, achieved by looping over the existing drives.
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/c4e8f2c6-ca6e-4984-b88b-66fed47f9f23)
+
+Now, we can see that in the fifth[`5`] node of the graph, we have a simple comparison against the `rax` register, and the code flow jumps to the sixth[`6`] node of the graph, let us explore the first function inside the sixth graph node, which is `main_main_func1`.
+
+
+
 
 
