@@ -12,7 +12,7 @@ categories: malware-analysis
 - Metadata.
 - Basic Static Analysis.
 - Looking into the code using IDA-Freeware.
-- Capabilities.
+- Workflow.
 - YARA Rule.
 - MITRE ATT&CK.
 - Author's two cents.
@@ -160,8 +160,106 @@ Then, using `path_filepath_Base` it gets the base name of the file from the dire
 ![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/fe7a06ec-fbc8-4280-a98e-d2a72b7eb353)
 
 
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/9d82e914-6a3d-4793-8378-4eaa8cb4d3b8)
+
+
+After, we navigate to the function, `main_main_func1_1`, we can see that there is a call to another function, known as `enc_encryption_EncryptFiles` , which is responsible for encrypting all the files pushed into the Queue, in the previous function. 
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/18b0921b-9c8c-4e52-b6cd-ea072dc8d5d0)
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/e4a4c3fa-1554-47d2-959d-3f60727afc07)
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/cbcd8dc4-735b-4cf4-b2d8-9678165c02d4)
+
+
+From, the above function, it is now clearly evident that, the code is using AES to encrypt the files, and replacing their extension with `.lock` . Now, once we have looked into this function, let us go to the caller of this function, which is `main_main_func1` function. 
+
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/eb7c60ae-4589-45f3-9966-5940c745998d)
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/e394d373-3c9f-476b-951a-14fdd56fe4ec)
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/e2737c9b-5cda-4b5a-9ca9-a53a4933b332)
+
+
+Now, after scrolling a little bit after the function(`main_main_func1_1`) has returned we can see that the config note stored in the `.rdata` section is being loaded, and finally the contents are written into a file known as `ВОССТАНОВИТЬ ФАЙЛЫ.txt` using the `os_WriteFile` function, and with this we, have the work of this function complete, and now it is returned to the caller `main_main` . 
+
+
+Now, we have explored the functions, resposnible for walking the directories, and encrypting the contents using AES algorithm, we are done with the [`6`] graph node, and this path continues for all the files which are present on the target machine, over all existing drives. Next, we will move to the last interesting graph which is [`7`]. 
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/26914552-cabd-4d32-95a8-e4e352537088)
+
+![GOGiyM-WsAA7y6L](https://github.com/xelemental/xelemental.github.io/assets/49472311/541cfe25-8c01-46ff-98f9-a603dbf3b5fb)
+
+
+Here, we can clearly see that `MessageBox` API is used print this message `ВНИМАНИЕ! , Система вашей компании была полностью скомпрометирована.Все ваши критичес кие данные были зашифрованы. `, with a title of the messagebox being `Locker` , and finally pops the messagbox, which notifies the user's data have been locked. 
+
+With, this we are done exploring the code using IDA-Freeware.
 
 
 
+## Workflow.
 
 
+
+![image](https://github.com/xelemental/xelemental.github.io/assets/49472311/febc2e6e-6843-4995-a0a6-b189a9974f49)
+
+
+
+## YARA Rule.
+
+I did draft a very basic YARA Rule for detecting the ransomware variant, if you find the rule needs fine-tuning or it needs some sort of fixation, please do let me know, thank you in advance!
+
+```
+rule Lockkey {
+
+    meta:
+        description = "Detecting Lock-key Ransomware"
+        author = "ElementalX"
+        date = "2024-05-31"
+        rule_version = "1.0"
+        malware_type = "Ransomware"
+
+    strings:
+
+        $process_kill = { BA 10 00 00 00 87 51 20 48 8B 0D ?? ?? ?? ?? 48 8B 1D ?? ?? ?? ?? 48 8B 15 ?? ?? ?? ?? 48 89 C8 48 89 D1 E8 ?? ?? ?? ?? }
+        $shadow_copydelete = { 48 8D 15 ?? ?? ?? ?? 48 89 94 24 ?? ?? ?? ?? 48 C7 84 24 ?? ?? ?? ?? ?? ?? ?? ?? 48 8D 15 ?? ?? ?? ?? 48 89 94 24 ?? ?? ?? ?? 48 C7 84 24 ?? ?? ?? ?? ?? ?? ?? ?? 48 8D 15 ?? ?? ?? ?? 48 89 94 24 ?? ?? ?? ?? 48 C7 84 24 ?? ?? ?? ?? ?? ?? ?? ?? 48 8D 15 ?? ?? ?? ?? 48 89 94 24 ?? ?? ?? ?? 48 C7 84 24 ?? ?? ?? ?? ?? ?? ?? ?? 48 8D 05 ?? ?? ?? ?? BB ?? ?? ?? ?? 48 8D 8C 24 ?? ?? ?? ?? BF ?? ?? ?? ?? 48 89 FE E8 ?? ?? ?? ?? }
+        $walking_file_encryption = { 44 0F 11 BC 24 ?? ?? ?? ?? 48 8D 15 ?? ?? ?? ?? 48 89 94 24 ?? ?? ?? ?? 48 8D 74 24 30 48 89 B4 24 ?? ?? ?? ?? 48 8B 74 24 48 48 89 B4 24 ?? ?? ?? ?? 48 8B 7C 24 68 48 89 BC 24 ?? ?? ?? ?? 48 8D 8C 24 ?? ?? ?? }
+        $ransom_note = "Система вашей компании была полностью скомпрометирована"
+        $go_build = "GEpiHmfNPehj-aQoWitd/sZWzxps9LkqWENj7tz61/mE_KWXQ-UwK0Xa5HpFKC/5EJgSMP8RHTKwJhmft2d"
+   
+   condition:
+           uint16(0) == 0x5A4D and
+           uint32(uint32(0x3C)) == 0x00004550 and 
+           all of them
+    }
+       
+```
+
+
+## MITRE ATT&CK.
+
+
+T1057 - Process Discovery.
+
+T1489 - Service Stop.
+
+T1490 - Inhibit System Recovery.
+
+T1082 - System Information Discovery.
+
+T1486 - Data Encrypted for Impact.
+
+
+
+## Author's two cents.
+
+It was fun analyzing a golang based simple ransomware, hope you enjoyed reading my approach towards analyzing this ransomware, if you find anything suspicious or wrong, please do reach out to me. 
+
+
+
+## Resources.
+
+- Go Docuemntation.
+- MSDN.
+- MITRE ATT&CK Framework.
