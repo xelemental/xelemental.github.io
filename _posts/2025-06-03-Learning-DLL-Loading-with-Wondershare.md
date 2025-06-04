@@ -1,7 +1,7 @@
 ---
 title:  "Learning DLL Hijacking and loading with Wondershare."
 layout: post
-categories: reverse-engineering
+categories: malware-analysis
 ---
 
 
