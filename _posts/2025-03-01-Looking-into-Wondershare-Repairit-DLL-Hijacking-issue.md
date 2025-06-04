@@ -1,5 +1,5 @@
 ---
-title:  "Learning DLL Loading with Wondershare"
+title:  "Looking into Wondershare Repairit DLL Hijacking issue"
 layout: post
 categories: malware-analysis
 ---
