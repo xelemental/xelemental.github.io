@@ -1,5 +1,5 @@
 ---
-title:  "Learning DLL Hijacking and loading with Wondershare."
+title:  "Learning DLL Loading with Wondershare"
 layout: post
 categories: malware-analysis
 ---
