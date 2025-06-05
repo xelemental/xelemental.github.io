@@ -178,3 +178,12 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 
 You can compile it using your favorite compiler. Next, we will place the DLL in the same folder. 
 
+![image](https://github.com/user-attachments/assets/d23fd374-ac68-4b66-8406-1bd97aa1f32b)
+
+And, we have placed our malicious DLL in the folder or directory, preffered by Wondershare Repairit. Next, let us get a callback! 
+
+
+### Getting a callback. 
+
+
+
