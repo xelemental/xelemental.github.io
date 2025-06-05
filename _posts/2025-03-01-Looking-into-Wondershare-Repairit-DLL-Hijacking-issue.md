@@ -65,7 +65,7 @@ When a program loads a DLL, Windows looks in these places in this order:
 -  Current working directory (where the program is running from).
 - Directories in the PATH (folders listed in the system's PATH environment variable).
 
- ### Why does search order matters?
+### Why does search order matters?
 
 If a malicious DLL with the same name as the expected DLL is placed in a directory checked first (like the application's folder), Windows may load it instead, leading to security risks like DLL hijacking.
 
