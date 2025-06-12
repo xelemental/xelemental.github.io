@@ -15,7 +15,6 @@ categories: malware-analysis
   - Crafting a malicious DLL.
   - Getting a callback.
 - What's next?
-- What else Wondershare?
 - References.
 
 
@@ -185,5 +184,22 @@ And, we have placed our malicious DLL in the folder or directory, preffered by W
 
 ### Getting a callback. 
 
+![image](https://github.com/user-attachments/assets/afb5eae8-55b1-4c8a-8877-54895f1733d6)
 
 
+![image](https://github.com/user-attachments/assets/2cfd7348-0554-435e-815e-394fd535d3b3)
+
+
+Finally, we can see that once we executed the Wondershare Repairit Software, and a crafted DLL payload, which basically pops a small calculator, also gives us a reverse-shell, which finally clears the motive, that we can run malicious software via WonderShare Repairit, leading to potential priviledge escalation. 
+
+If you want to access the entire POC, please move ahead to view the [video.](https://drive.google.com/file/d/1HYrV2lX1f0GOMOU6KSBhCUv9GAbt4ogq/view?usp=sharing)
+
+
+### What's next?
+
+Well, this was one of an example, on how there is a DLL hijacking issue which could lead to further escalation, I have also released another research on a Chinese nexus threat actor using DLL Hijacking in similar software to load a DLL implant which is known as VELETRIX, leading to VShell malware. You can read the research [here](https://www.seqrite.com/blog/operation-dragonclone-chinese-telecom-veletrix-vshell-malware/). I believe, there are some more gifts to be uncovered, but within my time limitation, I was able to find, only two of them. 
+
+
+### References. 
+
+- [ DLL Hijacking in Filmora. ](https://cvewalkthrough.com/cve-2020-23438-wondershare-filmora-9-2-11-trojan-dll-hijacking-leading-to-privilege-escalation/)
